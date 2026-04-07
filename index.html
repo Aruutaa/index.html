@@ -17,8 +17,10 @@ body{
 font-family:'Poppins', sans-serif;
 background:#0f172a;
 color:white;
+scroll-behavior:smooth;
 }
 
+/* NAVBAR */
 .navbar{
 background:rgba(15,23,42,0.8);
 backdrop-filter: blur(10px);
@@ -29,6 +31,28 @@ color:white !important;
 margin:0 10px;
 }
 
+/* DROPDOWN HOVER */
+.dropdown:hover .dropdown-menu{
+display:block;
+margin-top:0;
+}
+
+.dropdown-menu{
+background:#020617;
+border:none;
+border-radius:10px;
+}
+
+.dropdown-item{
+color:white;
+}
+
+.dropdown-item:hover{
+background:#0ea5e9;
+color:white;
+}
+
+/* HERO */
 .hero{
 height:100vh;
 display:flex;
@@ -45,12 +69,11 @@ font-size:64px;
 font-weight:700;
 }
 
-/* PROFIL SECTION */
+/* PROFIL */
 .profil-scroll{
 height:400px;
 overflow-y:auto;
 padding-right:15px;
-scroll-behavior:smooth;
 }
 
 .profil-scroll::-webkit-scrollbar{
@@ -70,16 +93,7 @@ background:rgba(255,255,255,0.03);
 border-radius:10px;
 }
 
-.profil-item h4{
-font-weight:600;
-margin-bottom:10px;
-}
-
-.profil-image img{
-border-radius:20px;
-box-shadow:0 0 30px rgba(14,165,233,0.3);
-}
-    
+/* BUTTON */
 .btn-glow{
 background:#0ea5e9;
 border:none;
@@ -88,12 +102,12 @@ border-radius:30px;
 box-shadow:0 0 20px rgba(14,165,233,0.6);
 }
 
+/* CARD */
 .card-modern{
 background:rgba(255,255,255,0.05);
 border:none;
 border-radius:20px;
 padding:20px;
-backdrop-filter: blur(10px);
 transition:0.3s;
 }
 
@@ -101,11 +115,13 @@ transition:0.3s;
 transform:translateY(-10px);
 }
 
+/* MAP */
 #map{
 height:500px;
 border-radius:20px;
 }
 
+/* SECTION */
 .section{
 padding:80px 0;
 }
@@ -120,21 +136,38 @@ text-align:center;
 
 <body>
 
+<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg fixed-top">
 <div class="container">
-<a class="navbar-brand text-white fw-bold">Program Studi Teknik Geomatika</a>
-<div class="collapse navbar-collapse">
+<a class="navbar-brand text-white fw-bold">Teknik Geomatika</a>
+
 <ul class="navbar-nav ms-auto">
+
 <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-<li class="nav-item"><a class="nav-link" href="#profil">Profil</a>
-<li class="nav-item"><a class="nav-link" href="kbk.html">KBK</a></li>
+
+<li class="nav-item">
+<a class="nav-link" href="#profil">Profil</a>
+</li>
+
+<!-- DROPDOWN KBK -->
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle">KBK</a>
+<ul class="dropdown-menu">
+<li><a class="dropdown-item" href="kbk.html#sig">SIG</a></li>
+<li><a class="dropdown-item" href="kbk.html#terestris">Terestris</a></li>
+<li><a class="dropdown-item" href="kbk.html#hidrologi">Hidrologi</a></li>
+<li><a class="dropdown-item" href="kbk.html#rs">Remote Sensing</a></li>
+</ul>
+</li>
+
 <li class="nav-item"><a class="nav-link" href="#map-section">Map</a></li>
 <li class="nav-item"><a class="nav-link" href="#galeri">Galeri</a></li>
+
 </ul>
-</div>
 </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
 <div>
 <h1>SALAM KOORDINAT</h1>
@@ -143,70 +176,89 @@ text-align:center;
 </div>
 </section>
 
+<!-- PROFIL -->
 <section class="section container" id="profil">
 <h2 class="text-center mb-5">Profil Program Studi</h2>
 
 <div class="row g-4 align-items-center">
 
-<!-- PANEL KIRI (SCROLL TEXT) -->
 <div class="col-md-6">
 <div class="profil-scroll">
 
 <div class="profil-item">
 <h4>Sejarah</h4>
-<p>Program Studi Teknik Geomatika merupakan bidang keilmuan yang berkembang dari teknik survei dan pemetaan, yang kini mengintegrasikan teknologi GIS, penginderaan jauh, dan pemodelan spasial untuk berbagai kebutuhan pembangunan.</p>
+<p>Geomatika berkembang dari teknik survei dan pemetaan menjadi ilmu geospasial modern.</p>
 </div>
 
 <div class="profil-item">
 <h4>Visi & Misi</h4>
-<p>Menjadi program studi unggul dalam bidang geomatika berbasis teknologi geospasial. Misi meliputi pengembangan riset, pendidikan berkualitas, dan kontribusi terhadap pembangunan berbasis data spasial.</p>
+<p>Menjadi program studi unggul dalam teknologi geospasial.</p>
 </div>
 
 <div class="profil-item">
 <h4>Apa itu Geomatika</h4>
-<p>Geomatika adalah ilmu yang mempelajari pengumpulan, pengolahan, analisis, dan visualisasi data geospasial untuk memahami fenomena di permukaan bumi.</p>
+<p>Ilmu pengolahan dan analisis data spasial.</p>
 </div>
 
 <div class="profil-item">
 <h4>Tenaga Pendidik</h4>
-<p>Didukung oleh dosen profesional di bidang GIS, fotogrametri, geodesi, dan penginderaan jauh yang aktif dalam penelitian dan pengabdian masyarakat.</p>
+<p>Dosen profesional di bidang GIS dan penginderaan jauh.</p>
 </div>
 
 <div class="profil-item">
 <h4>Akreditasi</h4>
-<p>Program studi ini telah terakreditasi dengan standar nasional dan terus meningkatkan kualitas pendidikan menuju akreditasi internasional.</p>
+<p>Terakreditasi nasional dan menuju internasional.</p>
 </div>
 
 </div>
 </div>
 
-<!-- PANEL KANAN (GAMBAR) -->
 <div class="col-md-6">
-<div class="profil-image">
-<img src="assets/img/SRG.png" class="img-fluid rounded shadow">
-</div>
+<img src="assets/img/SRG.png" class="img-fluid rounded">
 </div>
 
-    
-    
 </div>
 </section>
-    
+
+<!-- KBK -->
 <section class="section container" id="kbk">
 <h2 class="text-center mb-5">Bidang Keahlian</h2>
+
 <div class="row g-4">
-<div class="col-md-3"><div class="card-modern text-center"><h5>SIG</h5></div></div>
-<div class="col-md-3"><div class="card-modern text-center"><h5>Terestris</h5></div></div>
-<div class="col-md-3"><div class="card-modern text-center"><h5>Hidrologi</h5></div></div>
-<div class="col-md-3"><div class="card-modern text-center"><h5>Remote Sensing</h5></div></div>
+
+<div class="col-md-3">
+<a href="kbk.html#sig" style="text-decoration:none;color:white;">
+<div class="card-modern text-center"><h5>SIG</h5></div>
+</a>
+</div>
+
+<div class="col-md-3">
+<a href="kbk.html#terestris" style="text-decoration:none;color:white;">
+<div class="card-modern text-center"><h5>Terestris</h5></div>
+</a>
+</div>
+
+<div class="col-md-3">
+<a href="kbk.html#hidrologi" style="text-decoration:none;color:white;">
+<div class="card-modern text-center"><h5>Hidrologi</h5></div>
+</a>
+</div>
+
+<div class="col-md-3">
+<a href="kbk.html#rs" style="text-decoration:none;color:white;">
+<div class="card-modern text-center"><h5>Remote Sensing</h5></div>
+</a>
+</div>
+
 </div>
 </section>
 
+<!-- MAP -->
 <section class="section container" id="map-section">
-<h2 class="text-center mb-4"></h2>
-<div id="map">where we are</div>
+<div id="map"></div>
 </section>
 
+<!-- GALERI -->
 <section class="section container" id="galeri">
 <h2 class="text-center mb-4">Galeri</h2>
 <div class="row g-4">
@@ -217,35 +269,20 @@ text-align:center;
 </section>
 
 <footer>
-<p>© 2026 Dendi Duandiarta | Kink 🔥</p>
+<p>© 2026 Dendi | Kink 🔥</p>
 </footer>
 
 <script>
-
-// INIT MAP
+// MAP
 var map = L.map('map').setView([-7.8, 110.36], 13);
 
-// BASEMAP
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19
-}).addTo(map);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-// LOAD GEOJSON
 fetch('assets/geojson/asrama_putra.geojson')
 .then(res => res.json())
 .then(data => {
-    L.geoJSON(data, {
-        style: {
-            color: '#38bdf8',
-            weight: 2,
-            fillOpacity: 0.5
-        },
-        onEachFeature: function(feature, layer){
-            layer.bindPopup("<b>Bangunan</b><br>Info lokasi");
-        }
-    }).addTo(map);
+    L.geoJSON(data).addTo(map);
 });
-
 </script>
 
 </body>
