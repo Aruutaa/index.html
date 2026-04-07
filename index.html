@@ -1,30 +1,222 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<title>WebGIS Geomatika</title>
 <meta charset="UTF-8">
+<title>Geomatika WebGIS</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Poppins', sans-serif;
+}
+
+/* NAVBAR */
+.navbar{
+background:white;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* HERO */
+.hero{
+height:500px;
+background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+url("img/SRG.png");
+background-size:cover;
+background-position:center;
+color:white;
+display:flex;
+align-items:center;
+text-align:center;
+}
+
+.hero h1{
+font-size:48px;
+font-weight:600;
+}
+
+.hero p{
+font-size:18px;
+}
+
+/* KBK CARD */
+
+.kbk-card{
+transition:0.3s;
+}
+
+.kbk-card:hover{
+transform:translateY(-10px);
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* GALERI */
+
+.gallery img{
+height:220px;
+object-fit:cover;
+border-radius:10px;
+}
+
+/* FOOTER */
+
+footer{
+background:#111;
+color:white;
+padding:30px;
+text-align:center;
+}
+
+</style>
 </head>
 
 <body>
 
-<nav class="navbar navbar-dark bg-dark">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
 <div class="container">
-<a class="navbar-brand">WebGIS Geomatika</a>
+
+<a class="navbar-brand fw-bold">Geomatika WebGIS</a>
+
+<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+<a class="nav-link" href="#">Beranda</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#kbk">KBK</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#galeri">Galeri</a>
+</li>
+
+</ul>
+</div>
+
 </div>
 </nav>
 
-<div class="container mt-5">
+<!-- HERO -->
+<section class="hero">
+<div class="container">
 
-<h1>Selamat Datang di WebGIS</h1>
+<h1>WebGIS Teknik Geomatika</h1>
 
 <p>
-Website ini merupakan project Sistem Informasi Geografis berbasis web.
+Platform pembelajaran Sistem Informasi Geografis berbasis web
+</p>
+
+<button class="btn btn-primary btn-lg mt-3">
+Jelajahi
+</button>
+
+</div>
+</section>
+
+<!-- ABOUT -->
+<section class="container mt-5">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<h3>Tentang WebGIS</h3>
+
+<p>
+Mata kuliah SIG Berbasis Internet membahas pengembangan aplikasi GIS berbasis web menggunakan HTML, CSS, dan framework modern. Mahasiswa mempelajari bagaimana data spasial dapat ditampilkan dan dianalisis melalui platform internet.
 </p>
 
 </div>
+
+<div class="col-md-6">
+
+<img src="img/log.jpg" class="img-fluid rounded">
+
+</div>
+
+</div>
+
+</section>
+
+<!-- KBK -->
+<section class="container mt-5" id="kbk">
+
+<h3 class="text-center mb-4">Kelompok Bidang Keahlian</h3>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="card kbk-card text-center p-3">
+<h5>SIG</h5>
+<p>Analisis spasial & WebGIS</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card kbk-card text-center p-3">
+<h5>Terestris</h5>
+<p>Survey GNSS & Total Station</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card kbk-card text-center p-3">
+<h5>Fotogrametri</h5>
+<p>Pemetaan drone</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card kbk-card text-center p-3">
+<h5>Penginderaan Jauh</h5>
+<p>Analisis citra satelit</p>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- GALERI -->
+<section class="container mt-5 gallery" id="galeri">
+
+<h3 class="text-center mb-4">Galeri Geomatika</h3>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+<img src="img/SRG.png" class="img-fluid">
+</div>
+
+<div class="col-md-4">
+<img src="img/GG.png" class="img-fluid">
+</div>
+
+<div class="col-md-4">
+<img src="img/SGG.png" class="img-fluid">
+</div>
+
+</div>
+
+</section>
+
+<footer class="mt-5">
+
+<p>© 2026 Geomatika WebGIS</p>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
