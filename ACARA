@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>WebGIS Geomatika</title>
+<meta charset="UTF-8">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+<div class="container">
+<a class="navbar-brand">WebGIS Geomatika</a>
+</div>
+</nav>
+
+<div class="container mt-5">
+
+<h1>Selamat Datang di WebGIS</h1>
+
+<p>
+Website ini merupakan project Sistem Informasi Geografis berbasis web.
+</p>
+
+</div>
+
+</body>
+</html>
