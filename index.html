@@ -3,10 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WebGIS Pro</title>
+<title>WebGIS Leaflet Pro</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<!-- LEAFLET -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <style>
 body{
@@ -15,7 +19,6 @@ background:#0f172a;
 color:white;
 }
 
-/* NAVBAR */
 .navbar{
 background:rgba(15,23,42,0.8);
 backdrop-filter: blur(10px);
@@ -24,14 +27,8 @@ backdrop-filter: blur(10px);
 .nav-link{
 color:white !important;
 margin:0 10px;
-transition:0.3s;
 }
 
-.nav-link:hover{
-color:#38bdf8 !important;
-}
-
-/* HERO */
 .hero{
 height:100vh;
 display:flex;
@@ -48,24 +45,14 @@ font-size:64px;
 font-weight:700;
 }
 
-.hero p{
-opacity:0.8;
-}
-
 .btn-glow{
 background:#0ea5e9;
 border:none;
 padding:12px 30px;
 border-radius:30px;
 box-shadow:0 0 20px rgba(14,165,233,0.6);
-transition:0.3s;
 }
 
-.btn-glow:hover{
-transform:scale(1.1);
-}
-
-/* CARD */
 .card-modern{
 background:rgba(255,255,255,0.05);
 border:none;
@@ -76,39 +63,31 @@ transition:0.3s;
 }
 
 .card-modern:hover{
-transform:translateY(-10px) scale(1.03);
-box-shadow:0 0 30px rgba(56,189,248,0.3);
+transform:translateY(-10px);
 }
 
-/* MAP */
 #map{
 height:500px;
 border-radius:20px;
-overflow:hidden;
 }
 
-/* SECTION */
 .section{
 padding:80px 0;
 }
 
-/* FOOTER */
 footer{
 background:#020617;
 padding:30px;
 text-align:center;
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg fixed-top">
 <div class="container">
-<a class="navbar-brand text-white fw-bold">WebGIS Pro</a>
-
+<a class="navbar-brand text-white fw-bold">WebGIS Leaflet</a>
 <div class="collapse navbar-collapse">
 <ul class="navbar-nav ms-auto">
 <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
@@ -120,120 +99,68 @@ text-align:center;
 </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
 <div>
-<h1>WebGIS Level Dewa</h1>
-<p>Visualisasi data spasial interaktif & modern</p>
+<h1>WebGIS Leaflet Level Dewa</h1>
+<p>Interaktif, ringan, dan powerful</p>
 <a href="#map-section" class="btn btn-glow mt-3">Jelajahi</a>
 </div>
 </section>
 
-<!-- KBK -->
 <section class="section container" id="kbk">
 <h2 class="text-center mb-5">Bidang Keahlian</h2>
 <div class="row g-4">
-
-<div class="col-md-3">
-<div class="card-modern text-center">
-<h5>SIG</h5>
-<p>WebGIS & Analisis</p>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card-modern text-center">
-<h5>Terestris</h5>
-<p>Survey GNSS</p>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card-modern text-center">
-<h5>Drone</h5>
-<p>Fotogrametri</p>
-</div>
-</div>
-
-<div class="col-md-3">
-<div class="card-modern text-center">
-<h5>Remote Sensing</h5>
-<p>Citra Satelit</p>
-</div>
-</div>
-
+<div class="col-md-3"><div class="card-modern text-center"><h5>SIG</h5></div></div>
+<div class="col-md-3"><div class="card-modern text-center"><h5>Terestris</h5></div></div>
+<div class="col-md-3"><div class="card-modern text-center"><h5>Drone</h5></div></div>
+<div class="col-md-3"><div class="card-modern text-center"><h5>Remote Sensing</h5></div></div>
 </div>
 </section>
 
-<!-- MAP -->
 <section class="section container" id="map-section">
 <h2 class="text-center mb-4">WebGIS Interaktif</h2>
 <div id="map"></div>
 </section>
 
-<!-- GALERI -->
 <section class="section container" id="galeri">
 <h2 class="text-center mb-4">Galeri</h2>
 <div class="row g-4">
-
 <div class="col-md-4"><img src="assets/img/SRG.png" class="img-fluid rounded"></div>
 <div class="col-md-4"><img src="assets/img/GG.png" class="img-fluid rounded"></div>
 <div class="col-md-4"><img src="assets/img/SGG.png" class="img-fluid rounded"></div>
-
 </div>
 </section>
 
 <footer>
-<p>© 2026 WebGIS Pro | Dibuat Kink 🔥</p>
+<p>© 2026 WebGIS Leaflet | Kink 🔥</p>
 </footer>
 
-<!-- MAPBOX -->
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
-
 <script>
-mapboxgl.accessToken = 'ISI_TOKEN_KAMU';
 
-const map = new mapboxgl.Map({
-container: 'map',
-style: 'mapbox://styles/mapbox/dark-v11',
-center: [110.36, -7.8],
-zoom: 13
+// INIT MAP
+var map = L.map('map').setView([-7.8, 110.36], 13);
+
+// BASEMAP
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19
+}).addTo(map);
+
+// LOAD GEOJSON
+fetch('assets/geojson/asrama_putra.geojson')
+.then(res => res.json())
+.then(data => {
+    L.geoJSON(data, {
+        style: {
+            color: '#38bdf8',
+            weight: 2,
+            fillOpacity: 0.5
+        },
+        onEachFeature: function(feature, layer){
+            layer.bindPopup("<b>Bangunan</b><br>Info lokasi");
+        }
+    }).addTo(map);
 });
 
-map.addControl(new mapboxgl.NavigationControl());
-
-map.on('load', () => {
-map.addSource('geo', {
-type: 'geojson',
-data: 'assets/geojson/asrama_putra.geojson'
-});
-
-map.addLayer({
-id: 'geo-layer',
-type: 'fill',
-source: 'geo',
-paint: {
-'fill-color': '#38bdf8',
-'fill-opacity': 0.5
-}
-});
-
-map.on('mouseenter', 'geo-layer', () => {
-map.getCanvas().style.cursor = 'pointer';
-});
-
-map.on('mouseleave', 'geo-layer', () => {
-map.getCanvas().style.cursor = '';
-});
-
-map.on('click', 'geo-layer', (e) => {
-new mapboxgl.Popup()
-.setLngLat(e.lngLat)
-.setHTML('<h5>Bangunan</h5><p>Informasi lokasi</p>')
-.addTo(map);
-});
-});
 </script>
 
 </body>
