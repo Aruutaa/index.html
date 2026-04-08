@@ -137,6 +137,29 @@ WebGIS Fasilitas Kesehatan
 <!-- SIDEBAR -->
 
 <div id="sidebar">
+  <hr>
+
+<h5>Layer Fasilitas Kesehatan</h5>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox" id="layerRS" checked>
+<label class="form-check-label">Rumah Sakit</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox" id="layerPuskesmas" checked>
+<label class="form-check-label">Puskesmas</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox" id="layerKlinik" checked>
+<label class="form-check-label">Klinik</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox" id="layerApotek" checked>
+<label class="form-check-label">Apotek</label>
+</div>
 
 <h4>Navigasi</h4>
 
@@ -362,12 +385,62 @@ return R*c;
 
 }
 
+// LAYER GROUP
+var rsLayer = L.layerGroup().addTo(map);
+var puskesmasLayer = L.layerGroup().addTo(map);
+var klinikLayer = L.layerGroup().addTo(map);
+var apotekLayer = L.layerGroup().addTo(map);
 /* DATA */
 
-fetch('assets/geojson/faskes.geojson')
+var style = {
+radius:7,
+fillColor:color,
+color:"#fff",
+weight:1,
+fillOpacity:0.9
+};
+
+var marker;
+
+if(jenis=="Rumah Sakit"){
+marker = L.circleMarker([lat,lon],style).addTo(rsLayer);
+}
+
+else if(jenis=="Puskesmas"){
+marker = L.circleMarker([lat,lon],style).addTo(puskesmasLayer);
+}
+
+else if(jenis=="Klinik"){
+marker = L.circleMarker([lat,lon],style).addTo(klinikLayer);
+}
+
+else if(jenis=="Apotek"){
+marker = L.circleMarker([lat,lon],style).addTo(apotekLayer);
+})
 
 .then(res=>res.json())
+// TOGGLE LAYER
 
+document.getElementById("layerRS").onchange = function(){
+if(this.checked){ map.addLayer(rsLayer); }
+else{ map.removeLayer(rsLayer); }
+};
+
+document.getElementById("layerPuskesmas").onchange = function(){
+if(this.checked){ map.addLayer(puskesmasLayer); }
+else{ map.removeLayer(puskesmasLayer); }
+};
+
+document.getElementById("layerKlinik").onchange = function(){
+if(this.checked){ map.addLayer(klinikLayer); }
+else{ map.removeLayer(klinikLayer); }
+};
+
+document.getElementById("layerApotek").onchange = function(){
+if(this.checked){ map.addLayer(apotekLayer); }
+else{ map.removeLayer(apotekLayer); }
+};
+  
 .then(data=>{
 
 data.features.forEach(function(feature){
