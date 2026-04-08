@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>WebGIS Fasilitas Kesehatan</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+
+/* MAP FULLSCREEN */
+
+body{
+margin:0;
+font-family:Poppins;
+}
+
+#map{
+position:absolute;
+top:60px;
+bottom:0;
+right:0;
+left:0;
+}
+
+/* NAVBAR */
+
+.navbar{
+z-index:1000;
+}
+
+/* SIDEBAR */
+
+#sidebar{
+position:absolute;
+top:70px;
+left:10px;
+width:250px;
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+z-index:999;
+}
+
+/* ATTRIBUT PANEL */
+
+#infoPanel{
+position:absolute;
+top:70px;
+right:10px;
+width:300px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+z-index:999;
+}
+
+/* ANALYSIS PANEL */
+
+#analysisPanel{
+position:absolute;
+bottom:0;
+left:0;
+right:0;
+height:120px;
+background:rgba(0,0,0,0.7);
+color:white;
+padding:15px;
+z-index:999;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-dark bg-dark">
+
+<div class="container-fluid">
+
+<a class="navbar-brand" href="index.html">WebGIS Faskes</a>
+
+</div>
+
+</nav>
+
+<!-- SIDEBAR LAYER -->
+
+<div id="sidebar">
+
+<h5>Layer</h5>
+
+<div>
+<input type="checkbox" id="rs" checked> Rumah Sakit
+</div>
+
+<div>
+<input type="checkbox" id="puskesmas" checked> Puskesmas
+</div>
+
+<div>
+<input type="checkbox" id="klinik" checked> Klinik
+</div>
+
+<div>
+<input type="checkbox" id="apotek" checked> Apotek
+</div>
+
+</div>
+
+<!-- PANEL ATRIBUT -->
+
+<div id="infoPanel">
+
+<h5>Informasi Fasilitas</h5>
+
+<div id="infoContent">
+
+Klik titik fasilitas kesehatan
+
+</div>
+
+</div>
+
+<!-- PANEL ANALISIS -->
+
+<div id="analysisPanel">
+
+Analisis jarak fasilitas kesehatan dari lokasi pengguna akan muncul di sini.
+
+</div>
+
+<div id="map"></div>
+
+<script>
+
+/* INIT MAP */
+
+var map = L.map('map').setView([-7.72,110.02],11);
+
+/* BASEMAP */
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+attribution:'© OpenStreetMap'
+}).addTo(map);
+
+
+/* GEOLOCATION USER */
+
+var userMarker;
+
+map.locate({setView:false});
+
+map.on('locationfound',function(e){
+
+userMarker = L.marker(e.latlng).addTo(map)
+.bindPopup("Lokasi Anda");
+
+});
+
+
+/* LOAD DATA FASKES */
+
+fetch('assets/geojson/faskes.geojson')
+.then(res=>res.json())
+.then(data=>{
+
+L.geoJSON(data,{
+
+pointToLayer:function(feature,latlng){
+
+return L.circleMarker(latlng,{
+radius:8,
+fillColor:"red",
+color:"#fff",
+weight:1,
+fillOpacity:0.9
+});
+
+},
+
+onEachFeature:function(feature,layer){
+
+layer.on('click',function(){
+
+document.getElementById("infoContent").innerHTML =
+
+"<b>"+feature.properties.nama_faskes+"</b><br>"+
+"Jenis : "+feature.properties.jenis_faskes+"<br>"+
+"Kecamatan : "+feature.properties.kecamatan;
+
+});
+
+}
+
+}).addTo(map);
+
+});
+
+
+</script>
+
+</body>
+</html>
