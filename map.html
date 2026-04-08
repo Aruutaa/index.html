@@ -11,11 +11,11 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css"/>
 <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -28,36 +28,22 @@ font-family:'Poppins',sans-serif;
 background:#f1f5f9;
 }
 
-/* NAVBAR */
-
 .navbar{
 z-index:1000;
 }
 
-/* SIDEBAR */
-
 #sidebar{
-
 position:absolute;
 top:60px;
 left:0;
 bottom:0;
-
 width:360px;
-
 background:white;
-
 padding:25px;
-
 box-shadow:4px 0 12px rgba(0,0,0,0.15);
-
 overflow:auto;
-
 z-index:1000;
-
 }
-
-/* MAP */
 
 #map{
 position:absolute;
@@ -67,48 +53,28 @@ left:360px;
 right:0;
 }
 
-/* INFO PANEL */
-
 #infoPanel{
-
 position:absolute;
 top:80px;
 right:20px;
-
 width:280px;
-
 background:white;
-
 padding:20px;
-
 border-radius:10px;
-
 box-shadow:0 3px 10px rgba(0,0,0,0.2);
-
 z-index:999;
-
 }
 
-/* ANALYSIS PANEL */
-
 #analysisPanel{
-
 position:absolute;
-
 bottom:0;
 left:360px;
 right:0;
-
 height:120px;
-
 background:#0f172a;
-
 color:white;
-
 padding:20px;
-
 font-size:14px;
-
 }
 
 .legend-dot{
@@ -123,21 +89,12 @@ margin-right:6px;
 <body>
 
 <nav class="navbar navbar-dark bg-dark">
-
 <div class="container-fluid">
-
-<a class="navbar-brand" href="index.html">
-WebGIS Fasilitas Kesehatan
-</a>
-
+<a class="navbar-brand" href="index.html">WebGIS Fasilitas Kesehatan</a>
 </div>
-
 </nav>
 
-<!-- SIDEBAR -->
-
 <div id="sidebar">
-  <hr>
 
 <h5>Layer Fasilitas Kesehatan</h5>
 
@@ -161,92 +118,45 @@ WebGIS Fasilitas Kesehatan
 <label class="form-check-label">Apotek</label>
 </div>
 
-<h4>Navigasi</h4>
-
-<div class="mb-3">
+<hr>
 
 <label>Pencarian Lokasi</label>
-
 <div id="searchBox"></div>
-
-</div>
 
 <hr>
 
-<div class="mb-2">
-
-<label>Titik A (Awal)</label>
-
+<label>Titik A</label>
 <input id="startPoint" class="form-control" placeholder="Klik peta">
 
-</div>
-
-<div class="mb-2">
-
-<label>Titik B (Tujuan)</label>
-
+<label class="mt-2">Titik B</label>
 <input id="endPoint" class="form-control" placeholder="Klik peta">
 
-</div>
-
-<div class="mb-2">
-
-<label>Mode Transportasi</label>
-
+<label class="mt-2">Mode</label>
 <select id="modeTravel" class="form-control">
-
 <option value="driving">Mobil</option>
 <option value="walking">Pejalan Kaki</option>
-
 </select>
 
-</div>
-
 <div class="d-flex gap-2 mt-3">
-
-<button id="btnRoute" class="btn btn-primary w-50">
-Buat Rute
-</button>
-
-<button id="resetRoute" class="btn btn-danger w-50">
-Reset
-</button>
-
+<button id="btnRoute" class="btn btn-primary w-50">Buat Rute</button>
+<button id="resetRoute" class="btn btn-danger w-50">Reset</button>
 </div>
 
 </div>
-
-<!-- INFO -->
 
 <div id="infoPanel">
-
 <h5>Informasi Fasilitas</h5>
-
-<div id="infoContent">
-Klik titik fasilitas kesehatan
+<div id="infoContent">Klik titik fasilitas kesehatan</div>
 </div>
-
-</div>
-
-<!-- ANALYSIS -->
 
 <div id="analysisPanel">
-
 <b>Analisis Jarak</b><br>
-Klik marker fasilitas kesehatan untuk melihat jarak.
-
-<hr style="border-color:rgba(255,255,255,0.2)">
-
-<b>Legenda</b><br>
-
+Klik marker fasilitas kesehatan
+<hr>
 <span class="legend-dot" style="color:red">●</span> Rumah Sakit
-&nbsp;&nbsp;
 <span class="legend-dot" style="color:green">●</span> Puskesmas
-&nbsp;&nbsp;
 <span class="legend-dot" style="color:orange">●</span> Klinik
-&nbsp;&nbsp;
 <span class="legend-dot" style="color:purple">●</span> Apotek
-
 </div>
 
 <div id="map"></div>
@@ -263,16 +173,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 attribution:'© OpenStreetMap'
 }).addTo(map);
 
+
 /* SEARCH */
 
-var geocoder=L.Control.geocoder({
-defaultMarkGeocode:true
-});
+var geocoder=L.Control.geocoder({defaultMarkGeocode:true});
 
-geocoder.addTo(map);
+document.getElementById("searchBox").appendChild(geocoder.onAdd(map));
 
-document.getElementById("searchBox")
-.appendChild(geocoder.onAdd(map));
 
 /* USER LOCATION */
 
@@ -282,37 +189,26 @@ map.locate({setView:false});
 
 map.on('locationfound',function(e){
 
-userMarker=L.marker(e.latlng)
-.addTo(map)
-.bindPopup("Lokasi Anda");
+userMarker=L.marker(e.latlng).addTo(map).bindPopup("Lokasi Anda");
 
 });
+
 
 /* ROUTING */
 
 var routingControl;
-
 var startLatLng=null;
 var endLatLng=null;
 
 map.on('click',function(e){
 
 if(!startLatLng){
-
 startLatLng=e.latlng;
-
-document.getElementById("startPoint").value=
-e.latlng.lat.toFixed(5)+","+e.latlng.lng.toFixed(5);
-
+document.getElementById("startPoint").value=e.latlng.lat+","+e.latlng.lng;
 }
-
 else if(!endLatLng){
-
 endLatLng=e.latlng;
-
-document.getElementById("endPoint").value=
-e.latlng.lat.toFixed(5)+","+e.latlng.lng.toFixed(5);
-
+document.getElementById("endPoint").value=e.latlng.lat+","+e.latlng.lng;
 }
 
 });
@@ -320,11 +216,8 @@ e.latlng.lat.toFixed(5)+","+e.latlng.lng.toFixed(5);
 document.getElementById("btnRoute").onclick=function(){
 
 if(!startLatLng||!endLatLng){
-
 alert("Tentukan titik A dan B");
-
 return;
-
 }
 
 var mode=document.getElementById("modeTravel").value;
@@ -335,16 +228,9 @@ map.removeControl(routingControl);
 
 routingControl=L.Routing.control({
 
-waypoints:[
-startLatLng,
-endLatLng
-],
+waypoints:[startLatLng,endLatLng],
 
-router:L.Routing.osrmv1({
-profile:mode
-}),
-
-routeWhileDragging:false
+router:L.Routing.osrmv1({profile:mode})
 
 }).addTo(map);
 
@@ -359,10 +245,8 @@ map.removeControl(routingControl);
 startLatLng=null;
 endLatLng=null;
 
-document.getElementById("startPoint").value="";
-document.getElementById("endPoint").value="";
-
 };
+
 
 /* DISTANCE */
 
@@ -373,8 +257,7 @@ var R=6371;
 var dLat=(lat2-lat1)*Math.PI/180;
 var dLon=(lon2-lon1)*Math.PI/180;
 
-var a=
-Math.sin(dLat/2)*Math.sin(dLat/2)+
+var a=Math.sin(dLat/2)*Math.sin(dLat/2)+
 Math.cos(lat1*Math.PI/180)*
 Math.cos(lat2*Math.PI/180)*
 Math.sin(dLon/2)*Math.sin(dLon/2);
@@ -385,130 +268,21 @@ return R*c;
 
 }
 
-// LAYER GROUP
-var rsLayer = L.layerGroup().addTo(map);
-var puskesmasLayer = L.layerGroup().addTo(map);
-var klinikLayer = L.layerGroup().addTo(map);
-var apotekLayer = L.layerGroup().addTo(map);
-/* DATA */
+
+/* LAYER */
+
+var rsLayer=L.layerGroup().addTo(map);
+var puskesmasLayer=L.layerGroup().addTo(map);
+var klinikLayer=L.layerGroup().addTo(map);
+var apotekLayer=L.layerGroup().addTo(map);
+
+
+/* LOAD GEOJSON */
 
 fetch('assets/geojson/faskes_purworejo.geojson')
 
 .then(res=>res.json())
 
-.then(data=>{
-
-data.features.forEach(function(feature){
-
-var lat=feature.geometry.coordinates[1];
-var lon=feature.geometry.coordinates[0];
-
-var jenis=feature.properties.jenis_faskes;
-
-var color="blue";
-
-if(jenis=="Rumah Sakit"){color="red";}
-if(jenis=="Puskesmas"){color="green";}
-if(jenis=="Klinik"){color="orange";}
-if(jenis=="Apotek"){color="purple";}
-
-fetch('assets/geojson/faskes_purworejo.geojson')
-.then(res => res.json())
-.then(data => {
-
-data.features.forEach(function(feature){
-
-var lat = feature.geometry.coordinates[1];
-var lon = feature.geometry.coordinates[0];
-
-var jenis = feature.properties.jenis_faskes;
-
-var color = "blue";
-
-if(jenis=="Rumah Sakit"){color="red";}
-if(jenis=="Puskesmas"){color="green";}
-if(jenis=="Klinik"){color="orange";}
-if(jenis=="Apotek"){color="purple";}
-
-var style = {
-radius:7,
-fillColor:color,
-color:"#fff",
-weight:1,
-fillOpacity:0.9
-};
-
-var marker;
-
-if(jenis=="Rumah Sakit"){
-marker = L.circleMarker([lat,lon],style).addTo(rsLayer);
-}
-
-else if(jenis=="Puskesmas"){
-marker = L.circleMarker([lat,lon],style).addTo(puskesmasLayer);
-}
-
-else if(jenis=="Klinik"){
-marker = L.circleMarker([lat,lon],style).addTo(klinikLayer);
-}
-
-else if(jenis=="Apotek"){
-marker = L.circleMarker([lat,lon],style).addTo(apotekLayer);
-}
-
-marker.on('click',function(){
-
-document.getElementById("infoContent").innerHTML =
-"<b>"+feature.properties.nama_faskes+"</b><br>"+
-"Jenis : "+jenis+"<br>"+
-"Kecamatan : "+feature.properties.kecamatan+"<br>"+
-"Alamat : "+feature.properties.alamat;
-
-});
-
-});
-
-});
-
-
-"<b>Analisis Jarak</b><br>"+
-"Jarak dari lokasi Anda ke <b>"+feature.properties.nama_faskes+
-"</b> sekitar <b>"+dist.toFixed(2)+" km</b><hr>"+
-"<b>Legenda</b><br>"+
-"<span style='color:red'>●</span> Rumah Sakit "+
-"<span style='color:green'>●</span> Puskesmas "+
-"<span style='color:orange'>●</span> Klinik "+
-"<span style='color:purple'>●</span> Apotek";
-
-}
-
-});
-
-});
-
-});
-// TOGGLE LAYER
-
-document.getElementById("layerRS").onchange = function(){
-if(this.checked){ map.addLayer(rsLayer); }
-else{ map.removeLayer(rsLayer); }
-};
-
-document.getElementById("layerPuskesmas").onchange = function(){
-if(this.checked){ map.addLayer(puskesmasLayer); }
-else{ map.removeLayer(puskesmasLayer); }
-};
-
-document.getElementById("layerKlinik").onchange = function(){
-if(this.checked){ map.addLayer(klinikLayer); }
-else{ map.removeLayer(klinikLayer); }
-};
-
-document.getElementById("layerApotek").onchange = function(){
-if(this.checked){ map.addLayer(apotekLayer); }
-else{ map.removeLayer(apotekLayer); }
-};
-  
 .then(data=>{
 
 data.features.forEach(function(feature){
@@ -533,12 +307,16 @@ color:"#fff",
 weight:1,
 fillOpacity:0.9
 
-}).addTo(map);
+});
+
+if(jenis=="Rumah Sakit"){marker.addTo(rsLayer);}
+if(jenis=="Puskesmas"){marker.addTo(puskesmasLayer);}
+if(jenis=="Klinik"){marker.addTo(klinikLayer);}
+if(jenis=="Apotek"){marker.addTo(apotekLayer);}
 
 marker.on('click',function(){
 
 document.getElementById("infoContent").innerHTML=
-
 "<b>"+feature.properties.nama_faskes+"</b><br>"+
 "Jenis : "+jenis+"<br>"+
 "Kecamatan : "+feature.properties.kecamatan+"<br>"+
@@ -547,19 +325,12 @@ document.getElementById("infoContent").innerHTML=
 if(userMarker){
 
 var user=userMarker.getLatLng();
-
 var dist=getDistance(user.lat,user.lng,lat,lon);
 
 document.getElementById("analysisPanel").innerHTML=
-
 "<b>Analisis Jarak</b><br>"+
-"Jarak dari lokasi Anda ke <b>"+feature.properties.nama_faskes+
-"</b> sekitar <b>"+dist.toFixed(2)+" km</b><hr>"+
-"<b>Legenda</b><br>"+
-"<span style='color:red'>●</span> Rumah Sakit "+
-"<span style='color:green'>●</span> Puskesmas "+
-"<span style='color:orange'>●</span> Klinik "+
-"<span style='color:purple'>●</span> Apotek";
+"Jarak ke <b>"+feature.properties.nama_faskes+
+"</b> sekitar <b>"+dist.toFixed(2)+" km</b>";
 
 }
 
@@ -569,9 +340,26 @@ document.getElementById("analysisPanel").innerHTML=
 
 });
 
+
+/* TOGGLE LAYER */
+
+document.getElementById("layerRS").onchange=function(){
+this.checked?map.addLayer(rsLayer):map.removeLayer(rsLayer);
+};
+
+document.getElementById("layerPuskesmas").onchange=function(){
+this.checked?map.addLayer(puskesmasLayer):map.removeLayer(puskesmasLayer);
+};
+
+document.getElementById("layerKlinik").onchange=function(){
+this.checked?map.addLayer(klinikLayer):map.removeLayer(klinikLayer);
+};
+
+document.getElementById("layerApotek").onchange=function(){
+this.checked?map.addLayer(apotekLayer):map.removeLayer(apotekLayer);
+};
+
 </script>
 
 </body>
-
 </html>
-```
