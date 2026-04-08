@@ -393,21 +393,26 @@ sidebar.classList.toggle("hide");
 
 var legend = L.control({position:'bottomleft'});
 
-legend.onAdd=function(){
+legend.onAdd = function(){
 
-var div=L.DomUtil.create('div','legend');
+var div = L.DomUtil.create('div','legend');
 
-div.innerHTML=
+div.innerHTML = 
+"<b>Legenda</b><br><br>" +
 
-"<b>Legenda</b><br>"+
-"🏥 Rumah Sakit<br>"+
-"🏪 Puskesmas<br>"+
-"💊 Klinik<br>"+
-"🧴 Apotek";
+"<img src='https://cdn-icons-png.flaticon.com/512/2967/2967350.png' width='18'> Rumah Sakit<br>" +
+
+"<img src='https://cdn-icons-png.flaticon.com/512/684/684908.png' width='18'> Puskesmas<br>" +
+
+"<img src='https://cdn-icons-png.flaticon.com/512/1484/1484916.png' width='18'> Klinik<br>" +
+
+"<img src='https://cdn-icons-png.flaticon.com/512/2921/2921822.png' width='18'> Apotek";
 
 return div;
 
 };
+
+legend.addTo(map);
 
 legend.addTo(map);
 
