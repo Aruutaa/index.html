@@ -7,15 +7,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>WebGIS Fasilitas Kesehatan</title>
+<title>WebGIS Fasilitas Kesehatan Purworejo</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"/>
 
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -23,16 +29,8 @@
 
 body{
 margin:0;
-font-family:'Inter', sans-serif;
+font-family:'Inter',sans-serif;
 }
-
-/* NAVBAR */
-
-.navbar{
-z-index:1000;
-}
-
-/* MAP */
 
 #map{
 position:absolute;
@@ -42,7 +40,11 @@ left:0;
 right:0;
 }
 
-/* PANEL KIRI */
+.navbar{
+z-index:1000;
+}
+
+/* PANEL ROUTE */
 
 #routePanel{
 
@@ -50,7 +52,7 @@ position:absolute;
 top:80px;
 left:10px;
 
-width:300px;
+width:320px;
 
 background:white;
 
@@ -69,7 +71,6 @@ z-index:999;
 #infoPanel{
 
 position:absolute;
-
 top:80px;
 right:10px;
 
@@ -87,19 +88,18 @@ z-index:999;
 
 }
 
-/* PANEL ANALISIS */
+/* ANALISIS */
 
 #analysisPanel{
 
 position:absolute;
-
 bottom:0;
 left:0;
 right:0;
 
-height:110px;
+height:100px;
 
-background:rgba(0,0,0,0.8);
+background:rgba(0,0,0,0.85);
 
 color:white;
 
@@ -147,36 +147,33 @@ WebGIS Fasilitas Kesehatan
 
 <div id="routePanel">
 
-<h5>Navigasi</h5>
+<h5>Navigasi Rute</h5>
 
-<label>Tujuan</label>
+<label>Titik A (awal)</label>
 
-<select id="destinationSelect" class="form-control mb-2">
+<input id="startPoint" class="form-control mb-2" placeholder="Lokasi awal">
 
-<option value="">Pilih fasilitas kesehatan</option>
+<label>Titik B (tujuan)</label>
 
-</select>
+<input id="endPoint" class="form-control mb-2" placeholder="Lokasi tujuan">
 
-<label>Mode Transportasi</label>
+<div class="d-flex gap-2 mb-2">
 
-<select id="travelMode" class="form-control mb-2">
+<button id="swapRoute" class="btn btn-secondary w-50">Tukar</button>
 
-<option value="driving">Mobil</option>
-<option value="walking">Pejalan Kaki</option>
-
-</select>
-
-<button id="btnRoute" class="btn btn-primary w-100">
-Buat Rute
-</button>
+<button id="btnRoute" class="btn btn-primary w-50">GO</button>
 
 </div>
 
-<!-- INFO PANEL -->
+<small>Klik peta untuk menentukan titik.</small>
+
+</div>
+
+<!-- INFO -->
 
 <div id="infoPanel">
 
-<h5>Informasi</h5>
+<h5>Informasi Fasilitas</h5>
 
 <div id="infoContent">
 Klik titik fasilitas kesehatan
@@ -187,7 +184,7 @@ Klik titik fasilitas kesehatan
 <!-- ANALISIS -->
 
 <div id="analysisPanel">
-Analisis jarak fasilitas kesehatan
+Analisis jarak fasilitas kesehatan dari lokasi Anda
 </div>
 
 <div id="map"></div>
@@ -196,7 +193,7 @@ Analisis jarak fasilitas kesehatan
 
 /* MAP */
 
-var map = L.map('map',{zoomControl:false}).setView([-7.72,110.02],11);
+var map=L.map('map',{zoomControl:false}).setView([-7.72,110.02],11);
 
 L.control.zoom({position:'bottomright'}).addTo(map);
 
@@ -206,44 +203,106 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 attribution:'© OpenStreetMap'
 }).addTo(map);
 
+/* SEARCH */
+
+L.Control.geocoder({
+defaultMarkGeocode:true
+}).addTo(map);
+
 /* USER LOCATION */
 
 var userMarker;
 
-map.locate({setView:true});
+map.locate({setView:false});
 
 map.on('locationfound',function(e){
 
-userMarker = L.marker(e.latlng)
-.addTo(map)
+userMarker=L.marker(e.latlng).addTo(map)
 .bindPopup("Lokasi Anda");
 
 });
 
-/* DISTANCE */
+/* ROUTING */
 
-function getDistance(lat1,lon1,lat2,lon2){
+var routingControl;
 
-var R=6371;
+var startLatLng=null;
+var endLatLng=null;
 
-var dLat=(lat2-lat1)*Math.PI/180;
-var dLon=(lon2-lon1)*Math.PI/180;
+map.on('click',function(e){
 
-var a=
-Math.sin(dLat/2)*Math.sin(dLat/2)+
-Math.cos(lat1*Math.PI/180)*
-Math.cos(lat2*Math.PI/180)*
-Math.sin(dLon/2)*Math.sin(dLon/2);
+if(!startLatLng){
 
-var c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+startLatLng=e.latlng;
 
-return R*c;
+document.getElementById("startPoint").value=
+e.latlng.lat.toFixed(5)+","+e.latlng.lng.toFixed(5);
 
 }
 
-/* DATA */
+else if(!endLatLng){
 
-fetch('assets/geojson/faskes.geojson')
+endLatLng=e.latlng;
+
+document.getElementById("endPoint").value=
+e.latlng.lat.toFixed(5)+","+e.latlng.lng.toFixed(5);
+
+}
+
+});
+
+document.getElementById("btnRoute").onclick=function(){
+
+if(!startLatLng||!endLatLng){
+
+alert("Tentukan titik A dan B terlebih dahulu");
+
+return;
+
+}
+
+if(routingControl){
+
+map.removeControl(routingControl);
+
+}
+
+routingControl=L.Routing.control({
+
+waypoints:[
+
+startLatLng,
+endLatLng
+
+],
+
+routeWhileDragging:false
+
+}).addTo(map);
+
+};
+
+/* SWAP ROUTE */
+
+document.getElementById("swapRoute").onclick=function(){
+
+var temp=startLatLng;
+
+startLatLng=endLatLng;
+
+endLatLng=temp;
+
+document.getElementById("startPoint").value=
+startLatLng.lat+","+startLatLng.lng;
+
+document.getElementById("endPoint").value=
+endLatLng.lat+","+endLatLng.lng;
+
+};
+
+/* DATA FASKES */
+
+fetch('assets/geojson/faskes_purworejo.geojson')
 
 .then(res=>res.json())
 
@@ -273,97 +332,24 @@ fillOpacity:0.9
 
 }).addTo(map);
 
-/* DROPDOWN */
-
-var option=document.createElement("option");
-
-option.value=lat+","+lon;
-
-option.text=feature.properties.nama_faskes;
-
-document.getElementById("destinationSelect").appendChild(option);
-
-/* CLICK */
-
 marker.on('click',function(){
 
 document.getElementById("infoContent").innerHTML=
 
 "<b>"+feature.properties.nama_faskes+"</b><br>"+
-"Jenis : "+feature.properties.jenis_faskes+"<br>"+
+"Jenis : "+jenis+"<br>"+
 "Kecamatan : "+feature.properties.kecamatan+"<br>"+
 "Alamat : "+feature.properties.alamat;
 
-if(userMarker){
-
-var user=userMarker.getLatLng();
-
-var dist=getDistance(user.lat,user.lng,lat,lon);
-
-document.getElementById("analysisPanel").innerHTML=
-
-"Jarak dari lokasi Anda ke <b>"+feature.properties.nama_faskes+
-"</b> sekitar <b>"+dist.toFixed(2)+" km</b>";
-
-}
-
 });
 
 });
 
 });
-
-/* ROUTE */
-
-var routingControl;
-
-document.getElementById("btnRoute").onclick=function(){
-
-if(!userMarker){
-
-alert("Lokasi Anda belum terdeteksi");
-
-return;
-
-}
-
-var dest=document.getElementById("destinationSelect").value;
-
-if(dest==""){
-
-alert("Pilih tujuan terlebih dahulu");
-
-return;
-
-}
-
-var coord=dest.split(",");
-
-var lat=parseFloat(coord[0]);
-var lon=parseFloat(coord[1]);
-
-if(routingControl){
-
-map.removeControl(routingControl);
-
-}
-
-routingControl=L.Routing.control({
-
-waypoints:[
-userMarker.getLatLng(),
-L.latLng(lat,lon)
-],
-
-routeWhileDragging:false
-
-}).addTo(map);
-
-};
 
 /* LEGEND */
 
-var legend=L.control({position:'bottomleft'});
+var legend=L.control({position:'topleft'});
 
 legend.onAdd=function(){
 
