@@ -18,7 +18,7 @@
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Poppins;
 }
 
 #map{
@@ -29,8 +29,8 @@ height:100vh;
 
 #sidebar{
 position:absolute;
-top:10px;
-left:10px;
+top:20px;
+left:20px;
 background:white;
 padding:15px;
 border-radius:10px;
@@ -65,16 +65,10 @@ border-radius:10px;
 <script>
 
 // INIT MAP
-var map = L.map('map',{
-zoomControl:false
-}).setView([-7.72,110.02],11);
-
+var map = L.map('map',{zoomControl:false}).setView([-7.72,110.02],11);
 
 // ZOOM CONTROL
-L.control.zoom({
-position:'bottomright'
-}).addTo(map);
-
+L.control.zoom({position:'bottomright'}).addTo(map);
 
 // BASEMAP
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
@@ -111,11 +105,9 @@ var klinikLayer = L.layerGroup().addTo(map);
 var apotekLayer = L.layerGroup().addTo(map);
 
 
-// LOAD GEOJSON
+// LOAD DATA
 fetch('assets/geojson/faskes_purworejo.geojson')
-
 .then(res => res.json())
-
 .then(data => {
 
 data.features.forEach(function(feature){
@@ -123,7 +115,7 @@ data.features.forEach(function(feature){
 var lat = feature.geometry.coordinates[1];
 var lon = feature.geometry.coordinates[0];
 
-var jenis = feature.properties.jenis;
+var jenis = feature.properties.jenis_faskes;
 
 var marker;
 
@@ -144,9 +136,10 @@ marker = L.marker([lat,lon],{icon:apotekIcon}).addTo(apotekLayer);
 }
 
 marker.bindPopup(
-"<b>"+feature.properties.nama+"</b><br>"+
-"Jenis: "+feature.properties.jenis+"<br>"+
-"Kecamatan: "+feature.properties.kecamatan
+"<b>"+feature.properties.nama_faskes+"</b><br>"+
+"Jenis : "+feature.properties.jenis_faskes+"<br>"+
+"Kecamatan : "+feature.properties.kecamatan+"<br>"+
+"Alamat : "+feature.properties.alamat
 );
 
 });
@@ -195,5 +188,4 @@ legend.addTo(map);
 </script>
 
 </body>
-
 </html>
