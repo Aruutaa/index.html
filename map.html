@@ -392,7 +392,27 @@ var klinikLayer = L.layerGroup().addTo(map);
 var apotekLayer = L.layerGroup().addTo(map);
 /* DATA */
 
-var style = {
+fetch('assets/geojson/faskes_purworejo.geojson')
+
+.then(res=>res.json())
+
+.then(data=>{
+
+data.features.forEach(function(feature){
+
+var lat=feature.geometry.coordinates[1];
+var lon=feature.geometry.coordinates[0];
+
+var jenis=feature.properties.jenis_faskes;
+
+var color="blue";
+
+if(jenis=="Rumah Sakit"){color="red";}
+if(jenis=="Puskesmas"){color="green";}
+if(jenis=="Klinik"){color="orange";}
+if(jenis=="Apotek"){color="purple";}
+
+var style={
 radius:7,
 fillColor:color,
 color:"#fff",
@@ -403,22 +423,54 @@ fillOpacity:0.9
 var marker;
 
 if(jenis=="Rumah Sakit"){
-marker = L.circleMarker([lat,lon],style).addTo(rsLayer);
+marker=L.circleMarker([lat,lon],style).addTo(rsLayer);
 }
 
 else if(jenis=="Puskesmas"){
-marker = L.circleMarker([lat,lon],style).addTo(puskesmasLayer);
+marker=L.circleMarker([lat,lon],style).addTo(puskesmasLayer);
 }
 
 else if(jenis=="Klinik"){
-marker = L.circleMarker([lat,lon],style).addTo(klinikLayer);
+marker=L.circleMarker([lat,lon],style).addTo(klinikLayer);
 }
 
 else if(jenis=="Apotek"){
-marker = L.circleMarker([lat,lon],style).addTo(apotekLayer);
-})
+marker=L.circleMarker([lat,lon],style).addTo(apotekLayer);
+}
 
-.then(res=>res.json())
+marker.on('click',function(){
+
+document.getElementById("infoContent").innerHTML=
+
+"<b>"+feature.properties.nama_faskes+"</b><br>"+
+"Jenis : "+jenis+"<br>"+
+"Kecamatan : "+feature.properties.kecamatan+"<br>"+
+"Alamat : "+feature.properties.alamat;
+
+if(userMarker){
+
+var user=userMarker.getLatLng();
+
+var dist=getDistance(user.lat,user.lng,lat,lon);
+
+document.getElementById("analysisPanel").innerHTML=
+
+"<b>Analisis Jarak</b><br>"+
+"Jarak dari lokasi Anda ke <b>"+feature.properties.nama_faskes+
+"</b> sekitar <b>"+dist.toFixed(2)+" km</b><hr>"+
+"<b>Legenda</b><br>"+
+"<span style='color:red'>●</span> Rumah Sakit "+
+"<span style='color:green'>●</span> Puskesmas "+
+"<span style='color:orange'>●</span> Klinik "+
+"<span style='color:purple'>●</span> Apotek";
+
+}
+
+});
+
+});
+
+});
 // TOGGLE LAYER
 
 document.getElementById("layerRS").onchange = function(){
