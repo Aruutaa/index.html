@@ -1,11 +1,11 @@
-
+```html
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>WebGIS Fasilitas Kesehatan Purworejo</title>
 
@@ -15,7 +15,7 @@
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"/>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
@@ -23,46 +23,53 @@
 
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
 
 body{
 margin:0;
-font-family:'Inter',sans-serif;
+font-family:'Poppins',sans-serif;
+background:#f8fafc;
 }
 
-#map{
-position:absolute;
-top:60px;
-bottom:0;
-left:0;
-right:0;
-}
+/* NAVBAR */
 
 .navbar{
 z-index:1000;
 }
 
-/* PANEL ROUTE */
+/* MAP */
 
-#routePanel{
+#map{
+position:absolute;
+top:60px;
+bottom:0;
+left:350px;
+right:0;
+}
+
+/* SIDEBAR */
+
+#sidebar{
 
 position:absolute;
-top:80px;
-left:10px;
 
-width:320px;
+top:60px;
+left:0;
+bottom:0;
+
+width:350px;
 
 background:white;
 
-padding:20px;
+padding:25px;
 
-border-radius:12px;
+box-shadow:4px 0 15px rgba(0,0,0,0.15);
 
-box-shadow:0 4px 12px rgba(0,0,0,0.25);
+z-index:1000;
 
-z-index:999;
+overflow:auto;
 
 }
 
@@ -71,8 +78,9 @@ z-index:999;
 #infoPanel{
 
 position:absolute;
+
 top:80px;
-right:10px;
+right:20px;
 
 width:300px;
 
@@ -82,47 +90,47 @@ padding:20px;
 
 border-radius:12px;
 
-box-shadow:0 4px 12px rgba(0,0,0,0.25);
+box-shadow:0 4px 12px rgba(0,0,0,0.2);
 
 z-index:999;
 
 }
 
-/* ANALISIS */
+/* PANEL ANALISIS */
 
 #analysisPanel{
 
 position:absolute;
+
 bottom:0;
-left:0;
+left:350px;
 right:0;
 
-height:100px;
+height:120px;
 
-background:rgba(0,0,0,0.85);
+background:rgba(15,23,42,0.9);
 
 color:white;
 
-padding:15px;
+padding:20px;
 
-z-index:999;
+font-size:14px;
 
 }
 
-/* LEGEND */
+/* FORM */
 
-.legend{
-
-background:white;
-
-padding:10px;
-
+.form-control{
 border-radius:8px;
+}
 
-font-size:13px;
+.btn{
+border-radius:8px;
+}
 
-box-shadow:0 0 5px rgba(0,0,0,0.3);
-
+.legend-dot{
+font-size:18px;
+margin-right:6px;
 }
 
 </style>
@@ -136,47 +144,63 @@ box-shadow:0 0 5px rgba(0,0,0,0.3);
 <div class="container-fluid">
 
 <a class="navbar-brand" href="index.html">
+
 WebGIS Fasilitas Kesehatan
+
 </a>
 
 </div>
 
 </nav>
 
-<!-- PANEL ROUTE -->
+<!-- SIDEBAR -->
 
-<div id="routePanel">
+<div id="sidebar">
 
-<h5>Navigasi Rute</h5>
+<h4>Navigasi Rute</h4>
 
-<label>Titik A (awal)</label>
+<div class="mb-3">
 
-<input id="startPoint" class="form-control mb-2" placeholder="Lokasi awal">
+<label>Titik A (Lokasi Awal)</label>
 
-<label>Titik B (tujuan)</label>
-
-<input id="endPoint" class="form-control mb-2" placeholder="Lokasi tujuan">
-
-<div class="d-flex gap-2 mb-2">
-
-<button id="swapRoute" class="btn btn-secondary w-50">Tukar</button>
-
-<button id="btnRoute" class="btn btn-primary w-50">GO</button>
+<input id="startPoint" class="form-control" placeholder="Klik peta atau cari lokasi">
 
 </div>
 
-<small>Klik peta untuk menentukan titik.</small>
+<div class="mb-3">
+
+<label>Titik B (Tujuan)</label>
+
+<input id="endPoint" class="form-control" placeholder="Klik peta atau cari lokasi">
 
 </div>
 
-<!-- INFO -->
+<div class="d-flex gap-2 mb-3">
+
+<button id="swapRoute" class="btn btn-secondary w-50">
+Tukar
+</button>
+
+<button id="btnRoute" class="btn btn-primary w-50">
+GO
+</button>
+
+</div>
+
+<div id="searchBox"></div>
+
+</div>
+
+<!-- INFO PANEL -->
 
 <div id="infoPanel">
 
 <h5>Informasi Fasilitas</h5>
 
 <div id="infoContent">
+
 Klik titik fasilitas kesehatan
+
 </div>
 
 </div>
@@ -184,7 +208,33 @@ Klik titik fasilitas kesehatan
 <!-- ANALISIS -->
 
 <div id="analysisPanel">
-Analisis jarak fasilitas kesehatan dari lokasi Anda
+
+<div>
+
+<b>Analisis Jarak</b><br>
+Jarak fasilitas kesehatan akan muncul ketika marker diklik.
+
+</div>
+
+<hr style="border-color:rgba(255,255,255,0.2)">
+
+<div>
+
+<b>Legenda</b><br>
+
+<span class="legend-dot" style="color:red">●</span> Rumah Sakit
+&nbsp;&nbsp;
+
+<span class="legend-dot" style="color:green">●</span> Puskesmas
+&nbsp;&nbsp;
+
+<span class="legend-dot" style="color:orange">●</span> Klinik
+&nbsp;&nbsp;
+
+<span class="legend-dot" style="color:purple">●</span> Apotek
+
+</div>
+
 </div>
 
 <div id="map"></div>
@@ -205,7 +255,7 @@ attribution:'© OpenStreetMap'
 
 /* SEARCH */
 
-L.Control.geocoder({
+var geocoder=L.Control.geocoder({
 defaultMarkGeocode:true
 }).addTo(map);
 
@@ -251,6 +301,8 @@ e.latlng.lat.toFixed(5)+","+e.latlng.lng.toFixed(5);
 
 });
 
+/* GO ROUTE */
+
 document.getElementById("btnRoute").onclick=function(){
 
 if(!startLatLng||!endLatLng){
@@ -262,18 +314,14 @@ return;
 }
 
 if(routingControl){
-
 map.removeControl(routingControl);
-
 }
 
 routingControl=L.Routing.control({
 
 waypoints:[
-
 startLatLng,
 endLatLng
-
 ],
 
 routeWhileDragging:false
@@ -282,25 +330,38 @@ routeWhileDragging:false
 
 };
 
-/* SWAP ROUTE */
+/* SWAP */
 
 document.getElementById("swapRoute").onclick=function(){
 
 var temp=startLatLng;
-
 startLatLng=endLatLng;
-
 endLatLng=temp;
-
-document.getElementById("startPoint").value=
-startLatLng.lat+","+startLatLng.lng;
-
-document.getElementById("endPoint").value=
-endLatLng.lat+","+endLatLng.lng;
 
 };
 
-/* DATA FASKES */
+/* DISTANCE */
+
+function getDistance(lat1,lon1,lat2,lon2){
+
+var R=6371;
+
+var dLat=(lat2-lat1)*Math.PI/180;
+var dLon=(lon2-lon1)*Math.PI/180;
+
+var a=
+Math.sin(dLat/2)*Math.sin(dLat/2)+
+Math.cos(lat1*Math.PI/180)*
+Math.cos(lat2*Math.PI/180)*
+Math.sin(dLon/2)*Math.sin(dLon/2);
+
+var c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+
+return R*c;
+
+}
+
+/* DATA */
 
 fetch('assets/geojson/faskes_purworejo.geojson')
 
@@ -341,33 +402,30 @@ document.getElementById("infoContent").innerHTML=
 "Kecamatan : "+feature.properties.kecamatan+"<br>"+
 "Alamat : "+feature.properties.alamat;
 
-});
+if(userMarker){
 
-});
+var user=userMarker.getLatLng();
 
-});
+var dist=getDistance(user.lat,user.lng,lat,lon);
 
-/* LEGEND */
+document.getElementById("analysisPanel").innerHTML=
 
-var legend=L.control({position:'topleft'});
-
-legend.onAdd=function(){
-
-var div=L.DomUtil.create('div','legend');
-
-div.innerHTML=
-
+"<b>Analisis Jarak</b><br>"+
+"Jarak dari lokasi Anda ke <b>"+feature.properties.nama_faskes+
+"</b> sekitar <b>"+dist.toFixed(2)+" km</b><hr>"+
 "<b>Legenda</b><br>"+
-"<span style='color:red'>●</span> Rumah Sakit<br>"+
-"<span style='color:green'>●</span> Puskesmas<br>"+
-"<span style='color:orange'>●</span> Klinik<br>"+
+"<span style='color:red'>●</span> Rumah Sakit "+
+"<span style='color:green'>●</span> Puskesmas "+
+"<span style='color:orange'>●</span> Klinik "+
 "<span style='color:purple'>●</span> Apotek";
 
-return div;
+}
 
-};
+});
 
-legend.addTo(map);
+});
+
+});
 
 </script>
 
