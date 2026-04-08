@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>WebGIS Fasilitas Kesehatan</title>
+<title>WebGIS Map</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
@@ -16,6 +16,52 @@
 
 <style>
 
+body{
+margin:0;
+font-family:Arial;
+}
+
+#map{
+height:100vh;
+}
+
+/* SIDEBAR */
+
+#sidebar{
+position:absolute;
+top:10px;
+left:10px;
+background:white;
+padding:15px;
+border-radius:10px;
+z-index:1000;
+}
+
+.legend{
+background:white;
+padding:10px;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="sidebar">
+
+<b>Layer</b><br>
+
+<input type="checkbox" id="rs" checked> Rumah Sakit<br>
+<input type="checkbox" id="puskesmas" checked> Puskesmas<br>
+<input type="checkbox" id="klinik" checked> Klinik<br>
+<input type="checkbox" id="apotek" checked> Apotek
+
+</div>
+
+<div id="map"></div>
+
 <script>
 
 // INIT MAP
@@ -24,7 +70,7 @@ zoomControl:false
 }).setView([-7.72,110.02],11);
 
 
-// ZOOM CONTROL DI KANAN BAWAH
+// ZOOM CONTROL
 L.control.zoom({
 position:'bottomright'
 }).addTo(map);
@@ -36,10 +82,10 @@ attribution:'© OpenStreetMap'
 }).addTo(map);
 
 
-// ICON MARKER
+// ICON
 var rsIcon = L.icon({
 iconUrl:'https://cdn-icons-png.flaticon.com/512/2967/2967350.png',
-iconSize:[32,32]
+iconSize:[30,30]
 });
 
 var puskesmasIcon = L.icon({
@@ -54,34 +100,22 @@ iconSize:[30,30]
 
 var apotekIcon = L.icon({
 iconUrl:'https://cdn-icons-png.flaticon.com/512/2921/2921822.png',
-iconSize:[28,28]
+iconSize:[30,30]
 });
 
 
-// LAYER GROUP
-var rsLayer = L.layerGroup();
-var puskesmasLayer = L.layerGroup();
-var klinikLayer = L.layerGroup();
-var apotekLayer = L.layerGroup();
+// LAYER
+var rsLayer = L.layerGroup().addTo(map);
+var puskesmasLayer = L.layerGroup().addTo(map);
+var klinikLayer = L.layerGroup().addTo(map);
+var apotekLayer = L.layerGroup().addTo(map);
 
 
-// GEOLOCATION USER
-var userMarker;
+// LOAD GEOJSON
+fetch('assets/geojson/faskes_purworejo.geojson')
 
-map.locate({setView:false});
-
-map.on('locationfound',function(e){
-
-userMarker = L.marker(e.latlng)
-.addTo(map)
-.bindPopup("Lokasi Anda");
-
-});
-
-
-// LOAD GEOJSON DATA
-fetch('assets/geojson/faskes.geojson')
 .then(res => res.json())
+
 .then(data => {
 
 data.features.forEach(function(feature){
@@ -89,68 +123,52 @@ data.features.forEach(function(feature){
 var lat = feature.geometry.coordinates[1];
 var lon = feature.geometry.coordinates[0];
 
-var jenis = feature.properties.jenis_faskes;
+var jenis = feature.properties.jenis;
 
 var marker;
 
-if(jenis == "Rumah Sakit"){
+if(jenis=="Rumah Sakit"){
 marker = L.marker([lat,lon],{icon:rsIcon}).addTo(rsLayer);
 }
 
-else if(jenis == "Puskesmas"){
+else if(jenis=="Puskesmas"){
 marker = L.marker([lat,lon],{icon:puskesmasIcon}).addTo(puskesmasLayer);
 }
 
-else if(jenis == "Klinik"){
+else if(jenis=="Klinik"){
 marker = L.marker([lat,lon],{icon:klinikIcon}).addTo(klinikLayer);
 }
 
-else if(jenis == "Apotek"){
+else if(jenis=="Apotek"){
 marker = L.marker([lat,lon],{icon:apotekIcon}).addTo(apotekLayer);
 }
 
-
-marker.on('click',function(){
-
-document.getElementById("infoContent").innerHTML =
-
-"<h5>"+feature.properties.nama_faskes+"</h5>"+
-"<b>Jenis :</b> "+feature.properties.jenis_faskes+"<br>"+
-"<b>Kecamatan :</b> "+feature.properties.kecamatan+"<br>"+
-"<b>Alamat :</b> "+feature.properties.alamat;
+marker.bindPopup(
+"<b>"+feature.properties.nama+"</b><br>"+
+"Jenis: "+feature.properties.jenis+"<br>"+
+"Kecamatan: "+feature.properties.kecamatan
+);
 
 });
 
 });
 
 
-rsLayer.addTo(map);
-puskesmasLayer.addTo(map);
-klinikLayer.addTo(map);
-apotekLayer.addTo(map);
-
-});
-
-
-// SIDEBAR CHECKBOX
+// CHECKBOX CONTROL
 document.getElementById("rs").onchange = function(){
-if(this.checked){ map.addLayer(rsLayer); }
-else{ map.removeLayer(rsLayer); }
+this.checked ? map.addLayer(rsLayer) : map.removeLayer(rsLayer);
 };
 
 document.getElementById("puskesmas").onchange = function(){
-if(this.checked){ map.addLayer(puskesmasLayer); }
-else{ map.removeLayer(puskesmasLayer); }
+this.checked ? map.addLayer(puskesmasLayer) : map.removeLayer(puskesmasLayer);
 };
 
 document.getElementById("klinik").onchange = function(){
-if(this.checked){ map.addLayer(klinikLayer); }
-else{ map.removeLayer(klinikLayer); }
+this.checked ? map.addLayer(klinikLayer) : map.removeLayer(klinikLayer);
 };
 
 document.getElementById("apotek").onchange = function(){
-if(this.checked){ map.addLayer(apotekLayer); }
-else{ map.removeLayer(apotekLayer); }
+this.checked ? map.addLayer(apotekLayer) : map.removeLayer(apotekLayer);
 };
 
 
@@ -175,3 +193,7 @@ return div;
 legend.addTo(map);
 
 </script>
+
+</body>
+
+</html>
