@@ -195,50 +195,38 @@ attribution:'© OpenStreetMap'
 
 }).addTo(map);
 
-// ===============================
-// BATAS WILAYAH KABUPATEN PURWOREJO
-// ===============================
+/* =========================
+BATAS ADMINISTRASI PURWOREJO
+Sumber: BIG (Ina-Geoportal)
+========================= */
 
-var purworejoBoundary = {
-"type": "Feature",
-"properties": {
-"name": "Kabupaten Purworejo"
-},
-"geometry": {
-"type": "Polygon",
-"coordinates": [[
-[109.864, -7.572],
-[109.973, -7.548],
-[110.070, -7.562],
-[110.155, -7.601],
-[110.207, -7.671],
-[110.205, -7.760],
-[110.157, -7.828],
-[110.069, -7.871],
-[109.965, -7.879],
-[109.892, -7.843],
-[109.853, -7.769],
-[109.847, -7.682],
-[109.864, -7.572]
-]]
+fetch("https://raw.githubusercontent.com/superpikar/indonesia-geojson/master/indonesia-kab.geojson")
+
+.then(res => res.json())
+
+.then(data => {
+
+var purworejo = data.features.filter(function(feature){
+return feature.properties.name.toLowerCase().includes("purworejo");
+});
+
+var batasPurworejo = L.geoJSON(purworejo,{
+
+style:{
+color:"#2563eb",
+weight:3,
+fillColor:"#60a5fa",
+fillOpacity:0.1
 }
-};
 
-// style polygon
-var batasStyle = {
-color: "#2563eb",
-weight: 3,
-fillColor: "#60a5fa",
-fillOpacity: 0.15
-};
-
-// tampilkan polygon
-var batasLayer = L.geoJSON(purworejoBoundary,{
-style: batasStyle
 }).addTo(map);
 
 // zoom otomatis ke wilayah
-map.fitBounds(batasLayer.getBounds());
+map.fitBounds(batasPurworejo.getBounds());
+
+});
+  
+  
 /* LOAD GEOJSON */
 
 fetch('assets/geojson/faskes.geojson')
