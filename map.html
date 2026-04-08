@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>WebGIS Map</title>
+<title>WebGIS Fasilitas Kesehatan</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
@@ -21,26 +21,121 @@ margin:0;
 font-family:Poppins;
 }
 
+/* MAP */
+
 #map{
-height:100vh;
+position:absolute;
+top:60px;
+bottom:0;
+left:0;
+right:0;
+}
+
+/* NAVBAR */
+
+.navbar{
+z-index:1000;
 }
 
 /* SIDEBAR */
 
 #sidebar{
+
 position:absolute;
-top:20px;
-left:20px;
+top:80px;
+left:10px;
+width:250px;
+
 background:white;
-padding:15px;
+padding:20px;
 border-radius:10px;
-z-index:1000;
+
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+
+z-index:999;
+
+transition:0.3s;
+
 }
 
+#sidebar.hide{
+left:-260px;
+}
+
+/* BUTTON TOGGLE */
+
+#toggleSidebar{
+
+position:absolute;
+top:90px;
+left:10px;
+
+background:#0d6efd;
+color:white;
+
+border:none;
+
+padding:8px 12px;
+
+border-radius:6px;
+
+z-index:1000;
+
+}
+
+/* PANEL ATRIBUT */
+
+#infoPanel{
+
+position:absolute;
+top:80px;
+right:10px;
+
+width:300px;
+
+background:white;
+padding:20px;
+
+border-radius:10px;
+
+box-shadow:0 0 10px rgba(0,0,0,0.3);
+
+z-index:999;
+
+}
+
+/* ANALYSIS PANEL */
+
+#analysisPanel{
+
+position:absolute;
+
+bottom:0;
+left:0;
+right:0;
+
+height:120px;
+
+background:rgba(0,0,0,0.7);
+
+color:white;
+
+padding:15px;
+
+z-index:999;
+
+}
+
+/* LEGEND */
+
 .legend{
+
 background:white;
 padding:10px;
 border-radius:10px;
+
+line-height:1.5;
+
 }
 
 </style>
@@ -49,9 +144,27 @@ border-radius:10px;
 
 <body>
 
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-dark bg-dark">
+
+<div class="container-fluid">
+
+<a class="navbar-brand" href="index.html">WebGIS Faskes Purworejo</a>
+
+</div>
+
+</nav>
+
+<!-- BUTTON SIDEBAR -->
+
+<button id="toggleSidebar">☰ Layer</button>
+
+<!-- SIDEBAR -->
+
 <div id="sidebar">
 
-<b>Layer</b><br>
+<h5>Layer</h5>
 
 <input type="checkbox" id="rs" checked> Rumah Sakit<br>
 <input type="checkbox" id="puskesmas" checked> Puskesmas<br>
@@ -60,23 +173,51 @@ border-radius:10px;
 
 </div>
 
+<!-- PANEL ATRIBUT -->
+
+<div id="infoPanel">
+
+<h5>Informasi Fasilitas</h5>
+
+<div id="infoContent">
+
+Klik titik fasilitas kesehatan
+
+</div>
+
+</div>
+
+<!-- PANEL ANALISIS -->
+
+<div id="analysisPanel">
+
+Analisis jarak fasilitas kesehatan dari lokasi pengguna akan muncul di sini.
+
+</div>
+
 <div id="map"></div>
 
 <script>
 
-// INIT MAP
+/* INIT MAP */
+
 var map = L.map('map',{zoomControl:false}).setView([-7.72,110.02],11);
 
-// ZOOM CONTROL
-L.control.zoom({position:'bottomright'}).addTo(map);
+/* ZOOM */
 
-// BASEMAP
+L.control.zoom({
+position:'bottomright'
+}).addTo(map);
+
+/* BASEMAP */
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 attribution:'© OpenStreetMap'
 }).addTo(map);
 
 
-// ICON
+/* ICON */
+
 var rsIcon = L.icon({
 iconUrl:'https://cdn-icons-png.flaticon.com/512/2967/2967350.png',
 iconSize:[30,30]
@@ -98,17 +239,58 @@ iconSize:[30,30]
 });
 
 
-// LAYER
+/* LAYER GROUP */
+
 var rsLayer = L.layerGroup().addTo(map);
 var puskesmasLayer = L.layerGroup().addTo(map);
 var klinikLayer = L.layerGroup().addTo(map);
 var apotekLayer = L.layerGroup().addTo(map);
 
 
-// LOAD DATA
+/* USER LOCATION */
+
+var userMarker;
+
+map.locate({setView:false});
+
+map.on('locationfound',function(e){
+
+userMarker = L.marker(e.latlng)
+.addTo(map)
+.bindPopup("Lokasi Anda");
+
+});
+
+
+/* HITUNG JARAK */
+
+function getDistance(lat1,lon1,lat2,lon2){
+
+var R = 6371;
+
+var dLat = (lat2-lat1)*Math.PI/180;
+var dLon = (lon2-lon1)*Math.PI/180;
+
+var a =
+Math.sin(dLat/2)*Math.sin(dLat/2) +
+Math.cos(lat1*Math.PI/180) *
+Math.cos(lat2*Math.PI/180) *
+Math.sin(dLon/2)*Math.sin(dLon/2);
+
+var c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+
+return R*c;
+
+}
+
+
+/* LOAD DATA */
+
 fetch('assets/geojson/faskes_purworejo.geojson')
-.then(res => res.json())
-.then(data => {
+
+.then(res=>res.json())
+
+.then(data=>{
 
 data.features.forEach(function(feature){
 
@@ -135,44 +317,88 @@ else if(jenis=="Apotek"){
 marker = L.marker([lat,lon],{icon:apotekIcon}).addTo(apotekLayer);
 }
 
-marker.bindPopup(
+
+/* CLICK EVENT */
+
+marker.on('click',function(){
+
+document.getElementById("infoContent").innerHTML =
+
 "<b>"+feature.properties.nama_faskes+"</b><br>"+
 "Jenis : "+feature.properties.jenis_faskes+"<br>"+
 "Kecamatan : "+feature.properties.kecamatan+"<br>"+
-"Alamat : "+feature.properties.alamat
-);
+"Alamat : "+feature.properties.alamat;
+
+
+/* ANALISIS */
+
+if(userMarker){
+
+var user = userMarker.getLatLng();
+
+var distance = getDistance(user.lat,user.lng,lat,lon);
+
+document.getElementById("analysisPanel").innerHTML =
+
+"Jarak dari lokasi Anda ke <b>"+feature.properties.nama_faskes+"</b> adalah <b>"+distance.toFixed(2)+" km</b>";
+
+}
 
 });
 
 });
 
+});
 
-// CHECKBOX CONTROL
-document.getElementById("rs").onchange = function(){
+
+/* SIDEBAR CONTROL */
+
+document.getElementById("rs").onchange=function(){
+
 this.checked ? map.addLayer(rsLayer) : map.removeLayer(rsLayer);
+
 };
 
-document.getElementById("puskesmas").onchange = function(){
+document.getElementById("puskesmas").onchange=function(){
+
 this.checked ? map.addLayer(puskesmasLayer) : map.removeLayer(puskesmasLayer);
+
 };
 
-document.getElementById("klinik").onchange = function(){
+document.getElementById("klinik").onchange=function(){
+
 this.checked ? map.addLayer(klinikLayer) : map.removeLayer(klinikLayer);
+
 };
 
-document.getElementById("apotek").onchange = function(){
+document.getElementById("apotek").onchange=function(){
+
 this.checked ? map.addLayer(apotekLayer) : map.removeLayer(apotekLayer);
+
 };
 
 
-// LEGEND
+/* SIDEBAR TOGGLE */
+
+var sidebar = document.getElementById("sidebar");
+
+document.getElementById("toggleSidebar").onclick=function(){
+
+sidebar.classList.toggle("hide");
+
+};
+
+
+/* LEGEND */
+
 var legend = L.control({position:'bottomleft'});
 
-legend.onAdd = function(){
+legend.onAdd=function(){
 
-var div = L.DomUtil.create('div','legend');
+var div=L.DomUtil.create('div','legend');
 
-div.innerHTML =
+div.innerHTML=
+
 "<b>Legenda</b><br>"+
 "🏥 Rumah Sakit<br>"+
 "🏪 Puskesmas<br>"+
@@ -188,4 +414,5 @@ legend.addTo(map);
 </script>
 
 </body>
+
 </html>
