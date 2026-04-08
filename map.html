@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 
@@ -16,11 +17,13 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
 
 body{
 margin:0;
-font-family:Poppins;
+font-family:'Inter', sans-serif;
 }
 
 /* NAVBAR */
@@ -39,7 +42,7 @@ left:0;
 right:0;
 }
 
-/* SIDEBAR ROUTE */
+/* PANEL KIRI */
 
 #routePanel{
 
@@ -47,21 +50,21 @@ position:absolute;
 top:80px;
 left:10px;
 
-width:280px;
+width:300px;
 
 background:white;
 
 padding:20px;
 
-border-radius:10px;
+border-radius:12px;
 
-box-shadow:0 0 10px rgba(0,0,0,0.3);
+box-shadow:0 4px 12px rgba(0,0,0,0.25);
 
 z-index:999;
 
 }
 
-/* PANEL ATRIBUT */
+/* PANEL INFO */
 
 #infoPanel{
 
@@ -76,15 +79,15 @@ background:white;
 
 padding:20px;
 
-border-radius:10px;
+border-radius:12px;
 
-box-shadow:0 0 10px rgba(0,0,0,0.3);
+box-shadow:0 4px 12px rgba(0,0,0,0.25);
 
 z-index:999;
 
 }
 
-/* ANALYSIS PANEL */
+/* PANEL ANALISIS */
 
 #analysisPanel{
 
@@ -94,9 +97,9 @@ bottom:0;
 left:0;
 right:0;
 
-height:120px;
+height:110px;
 
-background:rgba(0,0,0,0.7);
+background:rgba(0,0,0,0.8);
 
 color:white;
 
@@ -114,11 +117,11 @@ background:white;
 
 padding:10px;
 
-border-radius:10px;
+border-radius:8px;
 
-line-height:1.5;
+font-size:13px;
 
-box-shadow:0 0 6px rgba(0,0,0,0.3);
+box-shadow:0 0 5px rgba(0,0,0,0.3);
 
 }
 
@@ -128,28 +131,39 @@ box-shadow:0 0 6px rgba(0,0,0,0.3);
 
 <body>
 
-<!-- NAVBAR -->
-
 <nav class="navbar navbar-dark bg-dark">
 
 <div class="container-fluid">
 
-<a class="navbar-brand" href="index.html">WebGIS Faskes Purworejo</a>
+<a class="navbar-brand" href="index.html">
+WebGIS Fasilitas Kesehatan
+</a>
 
 </div>
 
 </nav>
 
-<!-- ROUTE PANEL -->
+<!-- PANEL ROUTE -->
 
 <div id="routePanel">
 
-<h5>Rute Fasilitas Kesehatan</h5>
+<h5>Navigasi</h5>
 
 <label>Tujuan</label>
 
 <select id="destinationSelect" class="form-control mb-2">
+
 <option value="">Pilih fasilitas kesehatan</option>
+
+</select>
+
+<label>Mode Transportasi</label>
+
+<select id="travelMode" class="form-control mb-2">
+
+<option value="driving">Mobil</option>
+<option value="walking">Pejalan Kaki</option>
+
 </select>
 
 <button id="btnRoute" class="btn btn-primary w-100">
@@ -162,37 +176,29 @@ Buat Rute
 
 <div id="infoPanel">
 
-<h5>Informasi Fasilitas</h5>
+<h5>Informasi</h5>
 
 <div id="infoContent">
-
 Klik titik fasilitas kesehatan
-
 </div>
 
 </div>
 
-<!-- ANALYSIS -->
+<!-- ANALISIS -->
 
 <div id="analysisPanel">
-
-Analisis jarak fasilitas kesehatan dari lokasi Anda
-
+Analisis jarak fasilitas kesehatan
 </div>
 
 <div id="map"></div>
 
 <script>
 
-/* INIT MAP */
+/* MAP */
 
 var map = L.map('map',{zoomControl:false}).setView([-7.72,110.02],11);
 
-/* ZOOM CONTROL */
-
-L.control.zoom({
-position:'bottomright'
-}).addTo(map);
+L.control.zoom({position:'bottomright'}).addTo(map);
 
 /* BASEMAP */
 
@@ -200,43 +206,11 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
 attribution:'© OpenStreetMap'
 }).addTo(map);
 
-
-/* ICON */
-
-var rsIcon = L.icon({
-iconUrl:'https://cdn-icons-png.flaticon.com/512/2967/2967350.png',
-iconSize:[30,30]
-});
-
-var puskesmasIcon = L.icon({
-iconUrl:'https://cdn-icons-png.flaticon.com/512/684/684908.png',
-iconSize:[30,30]
-});
-
-var klinikIcon = L.icon({
-iconUrl:'https://cdn-icons-png.flaticon.com/512/1484/1484916.png',
-iconSize:[30,30]
-});
-
-var apotekIcon = L.icon({
-iconUrl:'https://cdn-icons-png.flaticon.com/512/2921/2921822.png',
-iconSize:[30,30]
-});
-
-
-/* LAYER */
-
-var rsLayer = L.layerGroup().addTo(map);
-var puskesmasLayer = L.layerGroup().addTo(map);
-var klinikLayer = L.layerGroup().addTo(map);
-var apotekLayer = L.layerGroup().addTo(map);
-
-
 /* USER LOCATION */
 
 var userMarker;
 
-map.locate({setView:false});
+map.locate({setView:true});
 
 map.on('locationfound',function(e){
 
@@ -246,8 +220,7 @@ userMarker = L.marker(e.latlng)
 
 });
 
-
-/* DISTANCE FUNCTION */
+/* DISTANCE */
 
 function getDistance(lat1,lon1,lat2,lon2){
 
@@ -268,8 +241,7 @@ return R*c;
 
 }
 
-
-/* LOAD DATA */
+/* DATA */
 
 fetch('assets/geojson/faskes.geojson')
 
@@ -279,61 +251,59 @@ fetch('assets/geojson/faskes.geojson')
 
 data.features.forEach(function(feature){
 
-var lat = feature.geometry.coordinates[1];
-var lon = feature.geometry.coordinates[0];
+var lat=feature.geometry.coordinates[1];
+var lon=feature.geometry.coordinates[0];
 
-var nama = feature.properties.nama_faskes;
-var jenis = feature.properties.jenis_faskes;
+var jenis=feature.properties.jenis_faskes;
 
-var marker;
+var color="blue";
 
-if(jenis=="Rumah Sakit"){
-marker = L.marker([lat,lon],{icon:rsIcon}).addTo(rsLayer);
-}
+if(jenis=="Rumah Sakit"){color="red";}
+if(jenis=="Puskesmas"){color="green";}
+if(jenis=="Klinik"){color="orange";}
+if(jenis=="Apotek"){color="purple";}
 
-else if(jenis=="Puskesmas"){
-marker = L.marker([lat,lon],{icon:puskesmasIcon}).addTo(puskesmasLayer);
-}
+var marker=L.circleMarker([lat,lon],{
 
-else if(jenis=="Klinik"){
-marker = L.marker([lat,lon],{icon:klinikIcon}).addTo(klinikLayer);
-}
+radius:7,
+fillColor:color,
+color:"#fff",
+weight:1,
+fillOpacity:0.9
 
-else if(jenis=="Apotek"){
-marker = L.marker([lat,lon],{icon:apotekIcon}).addTo(apotekLayer);
-}
+}).addTo(map);
 
-/* ADD TO DROPDOWN */
+/* DROPDOWN */
 
 var option=document.createElement("option");
 
 option.value=lat+","+lon;
 
-option.text=nama;
+option.text=feature.properties.nama_faskes;
 
 document.getElementById("destinationSelect").appendChild(option);
 
-
-/* CLICK EVENT */
+/* CLICK */
 
 marker.on('click',function(){
 
 document.getElementById("infoContent").innerHTML=
 
-"<b>"+nama+"</b><br>"+
-"Jenis: "+jenis+"<br>"+
-"Kecamatan: "+feature.properties.kecamatan+"<br>"+
-"Alamat: "+feature.properties.alamat;
+"<b>"+feature.properties.nama_faskes+"</b><br>"+
+"Jenis : "+feature.properties.jenis_faskes+"<br>"+
+"Kecamatan : "+feature.properties.kecamatan+"<br>"+
+"Alamat : "+feature.properties.alamat;
 
 if(userMarker){
 
 var user=userMarker.getLatLng();
 
-var distance=getDistance(user.lat,user.lng,lat,lon);
+var dist=getDistance(user.lat,user.lng,lat,lon);
 
 document.getElementById("analysisPanel").innerHTML=
 
-"Jarak dari lokasi Anda ke <b>"+nama+"</b> adalah <b>"+distance.toFixed(2)+" km</b>";
+"Jarak dari lokasi Anda ke <b>"+feature.properties.nama_faskes+
+"</b> sekitar <b>"+dist.toFixed(2)+" km</b>";
 
 }
 
@@ -343,8 +313,7 @@ document.getElementById("analysisPanel").innerHTML=
 
 });
 
-
-/* ROUTING */
+/* ROUTE */
 
 var routingControl;
 
@@ -362,7 +331,7 @@ var dest=document.getElementById("destinationSelect").value;
 
 if(dest==""){
 
-alert("Pilih tujuan dulu");
+alert("Pilih tujuan terlebih dahulu");
 
 return;
 
@@ -392,7 +361,6 @@ routeWhileDragging:false
 
 };
 
-
 /* LEGEND */
 
 var legend=L.control({position:'bottomleft'});
@@ -403,15 +371,11 @@ var div=L.DomUtil.create('div','legend');
 
 div.innerHTML=
 
-"<b>Legenda</b><br><br>"+
-
-"<img src='https://cdn-icons-png.flaticon.com/512/2967/2967350.png' width='18'> Rumah Sakit<br>"+
-
-"<img src='https://cdn-icons-png.flaticon.com/512/684/684908.png' width='18'> Puskesmas<br>"+
-
-"<img src='https://cdn-icons-png.flaticon.com/512/1484/1484916.png' width='18'> Klinik<br>"+
-
-"<img src='https://cdn-icons-png.flaticon.com/512/2921/2921822.png' width='18'> Apotek";
+"<b>Legenda</b><br>"+
+"<span style='color:red'>●</span> Rumah Sakit<br>"+
+"<span style='color:green'>●</span> Puskesmas<br>"+
+"<span style='color:orange'>●</span> Klinik<br>"+
+"<span style='color:purple'>●</span> Apotek";
 
 return div;
 
@@ -424,3 +388,4 @@ legend.addTo(map);
 </body>
 
 </html>
+```
