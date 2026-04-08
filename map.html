@@ -390,27 +390,41 @@ sidebar.classList.toggle("hide");
 
 
 /* LEGEND */
-
 var legend = L.control({position:'bottomleft'});
 
-legend.onAdd = function(){
+legend.onAdd = function(map){
 
 var div = L.DomUtil.create('div','legend');
 
-div.innerHTML = 
-"<b>Legenda</b><br><br>" +
+div.innerHTML = `
+<b>Legenda</b><br>
 
-"<img src='https://cdn-icons-png.flaticon.com/512/2967/2967350.png' width='18'> Rumah Sakit<br>" +
+<div style="display:flex;align-items:center;margin-top:5px;">
+<img src="https://cdn-icons-png.flaticon.com/512/2967/2967350.png" width="18">
+<span style="margin-left:6px;">Rumah Sakit</span>
+</div>
 
-"<img src='https://cdn-icons-png.flaticon.com/512/684/684908.png' width='18'> Puskesmas<br>" +
+<div style="display:flex;align-items:center;margin-top:5px;">
+<img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" width="18">
+<span style="margin-left:6px;">Puskesmas</span>
+</div>
 
-"<img src='https://cdn-icons-png.flaticon.com/512/1484/1484916.png' width='18'> Klinik<br>" +
+<div style="display:flex;align-items:center;margin-top:5px;">
+<img src="https://cdn-icons-png.flaticon.com/512/1484/1484916.png" width="18">
+<span style="margin-left:6px;">Klinik</span>
+</div>
 
-"<img src='https://cdn-icons-png.flaticon.com/512/2921/2921822.png' width='18'> Apotek";
+<div style="display:flex;align-items:center;margin-top:5px;">
+<img src="https://cdn-icons-png.flaticon.com/512/2921/2921822.png" width="18">
+<span style="margin-left:6px;">Apotek</span>
+</div>
+`;
 
 return div;
 
 };
+
+legend.addTo(map);
 
 legend.addTo(map);
 
