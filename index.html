@@ -195,25 +195,20 @@ attribution:'© OpenStreetMap'
 
 }).addTo(map);
 
-/* =========================
+/* ===============================
 BATAS ADMINISTRASI PURWOREJO
-Sumber: BIG (Ina-Geoportal)
-========================= */
+================================ */
 
-fetch("https://raw.githubusercontent.com/superpikar/indonesia-geojson/master/indonesia-kab.geojson")
+fetch('assets/geojson/pwr.geojson')
 
 .then(res => res.json())
 
 .then(data => {
 
-var purworejo = data.features.filter(function(feature){
-return feature.properties.name.toLowerCase().includes("purworejo");
-});
-
-var batasPurworejo = L.geoJSON(purworejo,{
+var batasLayer = L.geoJSON(data,{
 
 style:{
-color:"#2563eb",
+color:"#1d4ed8",
 weight:3,
 fillColor:"#60a5fa",
 fillOpacity:0.1
@@ -221,8 +216,8 @@ fillOpacity:0.1
 
 }).addTo(map);
 
-// zoom otomatis ke wilayah
-map.fitBounds(batasPurworejo.getBounds());
+// zoom ke wilayah
+map.fitBounds(batasLayer.getBounds());
 
 });
   
