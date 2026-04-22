@@ -114,14 +114,6 @@ body{
   margin:3px 4px 0 0;
 }
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
-#infoPanel{
-  position:absolute;
-  top:80px;
-  right:20px;
-  width:320px;
-  padding:18px;
-  z-index:1000;
-}
 #analysisPanel{
   position:absolute;
   bottom:18px;
@@ -169,13 +161,11 @@ body{
 .status-warn{color:#dc2626;font-weight:600}
 @media (max-width: 992px){
   :root{--sidebar-width:320px}
-  #infoPanel{width:290px}
 }
 @media (max-width: 768px){
   #sidebar{width:min(88vw,340px)}
   #sidebar.collapsed{transform:translateX(calc(-1 * min(88vw,340px) + 54px))}
   #map{left:54px}
-  #infoPanel{top:72px;left:64px;right:12px;width:auto}
   #analysisPanel{left:64px;right:12px;bottom:12px}
 }
 </style>
@@ -274,11 +264,6 @@ body{
     </div>
     <div id="facilityList" class="facility-list"></div>
   </div>
-</div>
-
-<div id="infoPanel" class="panel-card">
-  <h5 class="mb-2">Informasi Fasilitas</h5>
-  <div id="infoContent" class="small-muted">Klik titik fasilitas kesehatan untuk melihat detail.</div>
 </div>
 
 <div id="analysisPanel">
@@ -572,29 +557,32 @@ function refreshFacilityList(items){
   });
 }
 
-function showFacilityInfo(item, distText){
-  document.getElementById('infoContent').innerHTML =
-    '<b>'+escapeHtml(item.nama)+'</b><br>'+
-    'Jenis : '+escapeHtml(item.jenis)+'<br>'+
-    'Kecamatan : '+escapeHtml(item.kecamatan)+'<br>'+
-    'Alamat : '+escapeHtml(item.alamat)+'<br>'+
-    (distText ? '<span class="small-muted">'+distText+'</span>' : '');
-}
+function showFacilityInfo(item, distText){ return; }
 
 function handleFacilityClick(item){
   var distText = '';
   var analysisHtml = '<b>Analisis Fasilitas</b><br>Informasi fasilitas berhasil ditampilkan.';
+  var popupHtml =
+    '<div style="min-width:220px">'+
+    '<div style="font-weight:700;font-size:15px;margin-bottom:6px">'+escapeHtml(item.nama)+'</div>'+
+    '<div><b>Jenis:</b> '+escapeHtml(item.jenis)+'</div>'+
+    '<div><b>Kecamatan:</b> '+escapeHtml(item.kecamatan)+'</div>'+
+    '<div><b>Alamat:</b> '+escapeHtml(item.alamat)+'</div>';
 
   if(userMarker){
     var user = userMarker.getLatLng();
     var dist = getDistance(user.lat, user.lng, item.latlng.lat, item.latlng.lng);
     distText = 'Jarak dari lokasi Anda sekitar ' + dist.toFixed(2) + ' km';
+    popupHtml += '<hr style="margin:8px 0"><div><b>Jarak dari lokasi Anda:</b> '+dist.toFixed(2)+' km</div>';
     analysisHtml = '<b>Analisis Jarak</b><br>'+
       'Jarak ke <b>'+escapeHtml(item.nama)+'</b> sekitar <b>'+dist.toFixed(2)+' km</b>.<hr>'+
       '<span class="legend-dot" style="color:'+item.color+'">●</span> '+escapeHtml(item.jenis)+' | '+escapeHtml(item.kecamatan);
+  } else {
+    popupHtml += '<hr style="margin:8px 0"><div class="small-muted">Aktifkan lokasi untuk melihat jarak dari posisi Anda.</div>';
   }
 
-  showFacilityInfo(item, distText);
+  popupHtml += '</div>';
+  item.marker.bindPopup(popupHtml).openPopup();
   setAnalysis(analysisHtml);
 
   endLatLng = item.latlng;
@@ -761,9 +749,6 @@ fetch('assets/geojson/faskes.geojson')
   .catch(function(err){
     console.error(err);
     document.getElementById('statusData').innerHTML = '<span class="status-warn">Gagal</span>';
-    document.getElementById('infoContent').innerHTML =
-      '<span class="status-warn">Data GeoJSON tidak berhasil dimuat.</span><br>'+
-      '<span class="small-muted">Pastikan file berada pada path <b>assets/geojson/faskes.geojson</b>.</span>';
     setAnalysis(
       '<b>Status Data</b><br>Terjadi kendala saat memuat data fasilitas. Pastikan struktur folder dan nama file GeoJSON sudah benar.<hr>'+
       '<span class="legend-dot" style="color:#f87171">●</span> Path yang dibutuhkan: <b>assets/geojson/faskes.geojson</b>'
