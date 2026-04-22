@@ -1,68 +1,128 @@
 <!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="./resources/ol.css">
-        <link rel="stylesheet" href="resources/fontawesome-all.min.css">
-        <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
-        <link rel="stylesheet" href="./resources/qgis2web.css">
-        <style>
-        html, body {
-            background-color: #ffffff;
-        }
-        .ol-control > * {
-            background-color: #f8f8f8!important;
-            color: #444444!important;
-            border-radius: 0px;
-        }
-        .ol-attribution a, .gcd-gl-input::placeholder, .search-layer-input-search::placeholder {
-            color: #444444!important;
-        }
-        .search-layer-input-search {
-            background-color: #f8f8f8!important;
-        }
-        .ol-control > *:focus, .ol-control >*:hover {
-            background-color: rgba(248, 248, 248, 0.7)!important;
-        } 
-        .ol-control {
-            background-color: rgba(255,255,255,.4) !important;
-            padding: 2px !important;
-        } 
-        </style>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
 
-        <style>
-        html, body, #map {
-            width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
-        }
-        </style>
-        <title></title>
-    </head>
-    <body>
-        <div id="map">
-            <div id="popup" class="ol-popup">
-                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                <div id="popup-content"></div>
-            </div>
-        </div>
-        <script src="resources/qgis2web_expressions.js"></script>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<title>Peta QGIS2Web</title>
+
+<link rel="stylesheet" href="./resources/ol.css">
+<link rel="stylesheet" href="resources/fontawesome-all.min.css">
+<link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
+<link rel="stylesheet" href="./resources/ol-layerswitcher.css">
+<link rel="stylesheet" href="./resources/qgis2web.css">
+
+<style>
+html, body {
+    width:100%;
+    height:100%;
+    margin:0;
+    padding:0;
+    font-family:Arial, sans-serif;
+}
+
+/* NAVBAR */
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:55px;
+    background:#0f172a;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 20px;
+    z-index:9999;
+    box-shadow:0 2px 10px rgba(0,0,0,.25);
+}
+
+.navbar h1{
+    margin:0;
+    font-size:18px;
+    font-weight:600;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    background:#2563eb;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:14px;
+}
+
+.navbar a:hover{
+    background:#1d4ed8;
+}
+
+/* MAP */
+#map{
+    position:absolute;
+    top:55px;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+/* QGIS CONTROL */
+.ol-control > * {
+    background-color:#f8f8f8!important;
+    color:#444!important;
+    border-radius:0;
+}
+
+.ol-control{
+    background-color:rgba(255,255,255,.4)!important;
+    padding:2px!important;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h1>Peta QGIS2Web</h1>
+    <a href="../index.html">← Kembali ke Beranda</a>
+</div>
+
+<!-- MAP -->
+<div id="map">
+    <div id="popup" class="ol-popup">
+        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+    </div>
+</div>
+
+<!-- SCRIPT ASLI QGIS2WEB -->
+<script src="resources/qgis2web_expressions.js"></script>
 <script src="resources/proj4.js"></script>
-        <script>proj4.defs('EPSG:4326','+proj=longlat +datum=WGS84 +no_defs');</script>
-        <script src="./resources/functions.js"></script>
-        <script src="./resources/ol.js"></script>
-        <script src="./resources/ol-layerswitcher.js"></script>
-        <script src="resources/photon-geocoder-autocomplete.min.js"></script>
-        <script src="layers/faskes_1.js"></script><script src="layers/Purworejo_2.js"></script>
-        <script src="styles/faskes_1_style.js"></script><script src="styles/Purworejo_2_style.js"></script>
-        <script src="./layers/layers.js" type="text/javascript"></script> 
-        <script src="./resources/Autolinker.min.js"></script>
-        <script src="./resources/qgis2web.js"></script>        
-    </body>
+
+<script>
+proj4.defs('EPSG:4326','+proj=longlat +datum=WGS84 +no_defs');
+</script>
+
+<script src="./resources/functions.js"></script>
+<script src="./resources/ol.js"></script>
+<script src="./resources/ol-layerswitcher.js"></script>
+<script src="resources/photon-geocoder-autocomplete.min.js"></script>
+
+<script src="layers/faskes_1.js"></script>
+<script src="layers/Purworejo_2.js"></script>
+
+<script src="styles/faskes_1_style.js"></script>
+<script src="styles/Purworejo_2_style.js"></script>
+
+<script src="./layers/layers.js"></script>
+<script src="./resources/Autolinker.min.js"></script>
+<script src="./resources/qgis2web.js"></script>
+
+</body>
 </html>
