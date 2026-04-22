@@ -18,7 +18,7 @@
 
 <style>
 :root{
-  --sidebar-width:370px;
+  --sidebar-width:390px;
   --nav-height:60px;
   --panel-shadow:0 12px 28px rgba(15,23,42,.14);
   --radius:18px;
@@ -29,145 +29,42 @@
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:#f1f5f9;
-  color:var(--text);
-}
-.navbar{
-  height:var(--nav-height);
-  z-index:1100;
-  box-shadow:0 2px 10px rgba(0,0,0,.08);
-}
-.navbar-brand{
-  font-weight:600;
-}
-#sidebarToggle{
-  border:none;
-  background:rgba(255,255,255,.14);
-  color:#fff;
-  border-radius:12px;
-  padding:8px 12px;
-}
-#sidebar{
-  position:absolute;
-  top:var(--nav-height);
-  left:0;
-  bottom:0;
-  width:var(--sidebar-width);
-  background:rgba(255,255,255,.98);
-  padding:20px;
-  box-shadow:4px 0 18px rgba(0,0,0,0.12);
-  overflow:auto;
-  z-index:1050;
-  transition:transform .25s ease;
-}
-#sidebar.collapsed{
-  transform:translateX(calc(-1 * var(--sidebar-width) + 54px));
-}
-#map{
-  position:absolute;
-  top:var(--nav-height);
-  bottom:0;
-  left:var(--sidebar-width);
-  right:0;
-  transition:left .25s ease;
-}
+body{margin:0;font-family:'Poppins',sans-serif;background:#f1f5f9;color:var(--text)}
+.navbar{height:var(--nav-height);z-index:1100;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.navbar-brand{font-weight:600}
+#sidebarToggle{border:none;background:rgba(255,255,255,.14);color:#fff;border-radius:12px;padding:8px 12px}
+#sidebar{position:absolute;top:var(--nav-height);left:0;bottom:0;width:var(--sidebar-width);background:rgba(255,255,255,.98);padding:20px;box-shadow:4px 0 18px rgba(0,0,0,0.12);overflow:auto;z-index:1050;transition:transform .25s ease}
+#sidebar.collapsed{transform:translateX(calc(-1 * var(--sidebar-width) + 54px))}
+#map{position:absolute;top:var(--nav-height);bottom:0;left:var(--sidebar-width);right:0;transition:left .25s ease}
 #map.expanded{left:54px}
-.panel-card{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  box-shadow:var(--panel-shadow);
-}
-.section-title{
-  font-size:.92rem;
-  font-weight:700;
-  margin-bottom:10px;
-}
-.small-muted{
-  color:var(--muted);
-  font-size:.83rem;
-}
-.stat-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-.stat-item{
-  border:1px solid var(--border);
-  background:var(--bg-soft);
-  border-radius:14px;
-  padding:12px;
-}
-.stat-item b{display:block;font-size:1.1rem}
-.layer-pill{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:5px 10px;
-  border-radius:999px;
-  font-size:.8rem;
-  background:#f8fafc;
-  border:1px solid var(--border);
-  margin:3px 4px 0 0;
-}
+.panel-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--panel-shadow)}
+.section-title{font-size:.92rem;font-weight:700;margin-bottom:10px}
+.small-muted{color:var(--muted);font-size:.83rem}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat-item{border:1px solid var(--border);background:var(--bg-soft);border-radius:14px;padding:12px}
+.stat-item b{display:block;font-size:1.05rem}
+.layer-pill{display:inline-flex;align-items:center;gap:8px;padding:5px 10px;border-radius:999px;font-size:.8rem;background:#f8fafc;border:1px solid var(--border);margin:3px 4px 0 0}
 .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
-#analysisPanel{
-  position:absolute;
-  bottom:18px;
-  left:calc(var(--sidebar-width) + 18px);
-  right:18px;
-  min-height:120px;
-  background:rgba(15,23,42,.96);
-  color:#fff;
-  padding:18px 20px;
-  border-radius:20px;
-  box-shadow:0 10px 25px rgba(2,8,23,.28);
-  font-size:14px;
-  z-index:999;
-  transition:left .25s ease;
-}
+#analysisPanel{position:absolute;bottom:18px;left:calc(var(--sidebar-width) + 18px);right:18px;min-height:104px;background:rgba(15,23,42,.96);color:#fff;padding:18px 20px;border-radius:20px;box-shadow:0 10px 25px rgba(2,8,23,.28);font-size:14px;z-index:999;transition:left .25s ease}
 #analysisPanel.expanded{left:72px}
 .legend-dot{font-size:18px;margin-right:4px}
 .form-check{padding:8px 10px;border-radius:12px}
 .form-check:hover{background:#f8fafc}
 .form-label{font-size:.84rem;font-weight:600;margin-bottom:6px}
-.form-control,.form-select{
-  border-radius:12px;
-  border-color:#cbd5e1;
-}
-.btn{
-  border-radius:12px;
-  font-weight:600;
-}
-.custom-map-btn{
-  width:38px;height:38px;display:flex;align-items:center;justify-content:center;
-  border:none;border-radius:12px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);cursor:pointer;
-}
+.form-control,.form-select{border-radius:12px;border-color:#cbd5e1}
+.btn{border-radius:12px;font-weight:600}
+.custom-map-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:none;border-radius:12px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.15);cursor:pointer}
 .custom-map-btn:hover{background:#f8fafc}
-.badge-soft{
-  background:#e2e8f0;color:#0f172a;border-radius:999px;padding:6px 10px;font-weight:600;font-size:.75rem;
-}
+.badge-soft{background:#e2e8f0;color:#0f172a;border-radius:999px;padding:6px 10px;font-weight:600;font-size:.75rem}
 .facility-list{max-height:180px;overflow:auto}
-.facility-item{
-  border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff;cursor:pointer;
-}
+.facility-item{border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:#fff;cursor:pointer}
 .facility-item:hover{background:#f8fafc}
 .leaflet-popup-content-wrapper{border-radius:16px}
 .leaflet-routing-container{border-radius:16px;box-shadow:var(--panel-shadow)}
-.status-ok{color:#16a34a;font-weight:600}
-.status-warn{color:#dc2626;font-weight:600}
-@media (max-width: 992px){
-  :root{--sidebar-width:320px}
-}
-@media (max-width: 768px){
-  #sidebar{width:min(88vw,340px)}
-  #sidebar.collapsed{transform:translateX(calc(-1 * min(88vw,340px) + 54px))}
-  #map{left:54px}
-  #analysisPanel{left:64px;right:12px;bottom:12px}
-}
+.status-ok{color:#16a34a;font-weight:600}.status-warn{color:#dc2626;font-weight:600}
+.hr-soft{border:0;border-top:1px solid var(--border);margin:12px 0}
+@media (max-width: 992px){:root{--sidebar-width:330px}}
+@media (max-width: 768px){#sidebar{width:min(88vw,340px)}#sidebar.collapsed{transform:translateX(calc(-1 * min(88vw,340px) + 54px))}#map{left:54px}#analysisPanel{left:64px;right:12px;bottom:12px}}
 </style>
 </head>
 <body>
@@ -194,28 +91,40 @@ body{
   </div>
 
   <div class="panel-card p-3 mb-3">
+    <div class="section-title">Layer Basemap</div>
+    <div class="small-muted mb-2">Basemap dapat dipilih langsung dari kontrol layer di peta.</div>
+    <div class="mt-2">
+      <span class="layer-pill"><span class="dot" style="background:#3b82f6"></span> OpenStreetMap</span>
+      <span class="layer-pill"><span class="dot" style="background:#94a3b8"></span> Carto Light</span>
+      <span class="layer-pill"><span class="dot" style="background:#0f172a"></span> Esri Imagery</span>
+      <span class="layer-pill"><span class="dot" style="background:#16a34a"></span> Basemap QGIS2Web</span>
+    </div>
+  </div>
+
+  <div class="panel-card p-3 mb-3">
     <div class="section-title">Layer Fasilitas Kesehatan</div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="layerRS" checked>
-      <label class="form-check-label" for="layerRS">Rumah Sakit</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="layerPuskesmas" checked>
-      <label class="form-check-label" for="layerPuskesmas">Puskesmas</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="layerKlinik" checked>
-      <label class="form-check-label" for="layerKlinik">Klinik</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="layerApotek" checked>
-      <label class="form-check-label" for="layerApotek">Apotek</label>
-    </div>
+    <div class="form-check"><input class="form-check-input" type="checkbox" id="layerRS" checked><label class="form-check-label" for="layerRS">Rumah Sakit</label></div>
+    <div class="form-check"><input class="form-check-input" type="checkbox" id="layerPuskesmas" checked><label class="form-check-label" for="layerPuskesmas">Puskesmas</label></div>
+    <div class="form-check"><input class="form-check-input" type="checkbox" id="layerKlinik" checked><label class="form-check-label" for="layerKlinik">Klinik</label></div>
+    <div class="form-check"><input class="form-check-input" type="checkbox" id="layerApotek" checked><label class="form-check-label" for="layerApotek">Apotek</label></div>
     <div class="mt-2">
       <span class="layer-pill"><span class="dot" style="background:red"></span> Rumah Sakit</span>
       <span class="layer-pill"><span class="dot" style="background:green"></span> Puskesmas</span>
       <span class="layer-pill"><span class="dot" style="background:orange"></span> Klinik</span>
       <span class="layer-pill"><span class="dot" style="background:purple"></span> Apotek</span>
+    </div>
+  </div>
+
+  <div class="panel-card p-3 mb-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="section-title mb-0">Data QGIS2Web</div>
+      <span class="small-muted" id="qgisDataStatus">Memuat...</span>
+    </div>
+    <div class="small-muted mb-2">Layer dari export qgis2web akan masuk ke peta interaktif ini sebagai overlay tambahan.</div>
+    <div class="form-check"><input class="form-check-input" type="checkbox" id="qgisLayerBoundary" checked><label class="form-check-label" for="qgisLayerBoundary">Batas Purworejo (QGIS2Web)</label></div>
+    <div class="form-check"><input class="form-check-input" type="checkbox" id="qgisLayerFaskes" checked><label class="form-check-label" for="qgisLayerFaskes">Faskes (QGIS2Web)</label></div>
+    <div class="d-grid gap-2 mt-3">
+      <button id="btnZoomQgisData" class="btn btn-outline-success">Zoom ke Data QGIS2Web</button>
     </div>
   </div>
 
@@ -268,7 +177,7 @@ body{
 
 <div id="analysisPanel">
   <b>Analisis Jarak</b><br>
-  Klik marker fasilitas kesehatan untuk melihat jarak dari lokasi Anda atau gunakan tombol <b>Cari Fasilitas Terdekat</b>.
+  Klik marker fasilitas kesehatan untuk melihat jarak dari lokasi Anda. Layer tambahan dari qgis2web dapat dihidupkan dari panel kiri.
   <hr>
   <span class="legend-dot" style="color:red">●</span> Rumah Sakit
   <span class="legend-dot" style="color:green">●</span> Puskesmas
@@ -286,24 +195,21 @@ var map = L.map('map', { zoomControl:false }).setView([-7.72,110.02],11);
 L.control.zoom({ position:'bottomright' }).addTo(map);
 
 var baseLayers = {
-  "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:'© OpenStreetMap'
-  }),
-  "Carto Light": L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution:'© OpenStreetMap © CARTO'
-  }),
-  "Esri World Imagery": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution:'Tiles © Esri'
-  })
+  "OpenStreetMap": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'© OpenStreetMap' }),
+  "Carto Light": L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution:'© OpenStreetMap © CARTO' }),
+  "Esri World Imagery": L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution:'Tiles © Esri' }),
+  "Basemap QGIS2Web (OSM)": L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution:'© OpenStreetMap | Gaya kompatibel qgis2web' })
 };
 baseLayers["OpenStreetMap"].addTo(map);
+
+var overlayControl = L.control.layers(baseLayers, null, { position:'bottomright', collapsed:true }).addTo(map);
+var qgisOverlayEntries = {};
 
 /* ===============================
    KONTROL MAP TAMBAHAN
 =============================== */
 var geocoder = L.Control.geocoder({ defaultMarkGeocode:true, placeholder:'Cari lokasi...' });
 document.getElementById("searchBox").appendChild(geocoder.onAdd(map));
-L.control.layers(baseLayers, null, { position:'bottomright', collapsed:true }).addTo(map);
 
 var locateControl = L.control({position:'bottomright'});
 locateControl.onAdd = function(){
@@ -330,53 +236,33 @@ document.getElementById('sidebarToggle').onclick = function(){
 /* ===============================
    UTILITAS
 =============================== */
-function safeText(value, fallback){
-  return (value !== undefined && value !== null && value !== '') ? value : (fallback || '-');
+function safeText(value, fallback){ return (value !== undefined && value !== null && value !== '') ? value : (fallback || '-'); }
+function escapeHtml(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
+function getDistance(lat1,lon1,lat2,lon2){ var R=6371; var dLat=(lat2-lat1)*Math.PI/180; var dLon=(lon2-lon1)*Math.PI/180; var a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2); var c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a)); return R*c; }
+function setAnalysis(html){ document.getElementById('analysisPanel').innerHTML = html; }
+function updateCounts(){ document.getElementById('countVisible').textContent = getVisibleMarkers().length; }
+function getColorByType(jenis){ if(jenis==='Rumah Sakit') return 'red'; if(jenis==='Puskesmas') return 'green'; if(jenis==='Klinik') return 'orange'; if(jenis==='Apotek') return 'purple'; return '#2563eb'; }
+function layerByType(jenis){ if(jenis==='Rumah Sakit') return rsLayer; if(jenis==='Puskesmas') return puskesmasLayer; if(jenis==='Klinik') return klinikLayer; if(jenis==='Apotek') return apotekLayer; return otherFacilityLayer; }
+function isLayerVisible(jenis){ if(jenis==='Rumah Sakit') return map.hasLayer(rsLayer); if(jenis==='Puskesmas') return map.hasLayer(puskesmasLayer); if(jenis==='Klinik') return map.hasLayer(klinikLayer); if(jenis==='Apotek') return map.hasLayer(apotekLayer); return map.hasLayer(otherFacilityLayer); }
+function formatAnyProps(props){
+  if(!props) return '<div class="small-muted">Tidak ada atribut.</div>';
+  return Object.keys(props).map(function(key){
+    return '<div><b>'+escapeHtml(key)+':</b> '+escapeHtml(safeText(props[key], '-'))+'</div>';
+  }).join('');
 }
-function escapeHtml(str){
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#039;');
+function addOverlayToControl(layer, name){
+  if(qgisOverlayEntries[name]) return;
+  qgisOverlayEntries[name] = true;
+  overlayControl.addOverlay(layer, name);
 }
-function getDistance(lat1,lon1,lat2,lon2){
-  var R=6371;
-  var dLat=(lat2-lat1)*Math.PI/180;
-  var dLon=(lon2-lon1)*Math.PI/180;
-  var a=Math.sin(dLat/2)*Math.sin(dLat/2)+
-    Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
-    Math.sin(dLon/2)*Math.sin(dLon/2);
-  var c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-  return R*c;
-}
-function setAnalysis(html){
-  document.getElementById('analysisPanel').innerHTML = html;
-}
-function updateCounts(){
-  document.getElementById('countVisible').textContent = getVisibleMarkers().length;
-}
-function getColorByType(jenis){
-  if(jenis === 'Rumah Sakit') return 'red';
-  if(jenis === 'Puskesmas') return 'green';
-  if(jenis === 'Klinik') return 'orange';
-  if(jenis === 'Apotek') return 'purple';
-  return 'blue';
-}
-function layerByType(jenis){
-  if(jenis === 'Rumah Sakit') return rsLayer;
-  if(jenis === 'Puskesmas') return puskesmasLayer;
-  if(jenis === 'Klinik') return klinikLayer;
-  if(jenis === 'Apotek') return apotekLayer;
-  return rsLayer;
-}
-function isLayerVisible(jenis){
-  if(jenis === 'Rumah Sakit') return map.hasLayer(rsLayer);
-  if(jenis === 'Puskesmas') return map.hasLayer(puskesmasLayer);
-  if(jenis === 'Klinik') return map.hasLayer(klinikLayer);
-  if(jenis === 'Apotek') return map.hasLayer(apotekLayer);
-  return true;
+function loadScript(src){
+  return new Promise(function(resolve, reject){
+    var s = document.createElement('script');
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = function(){ reject(new Error('Gagal memuat '+src)); };
+    document.body.appendChild(s);
+  });
 }
 
 /* ===============================
@@ -389,18 +275,10 @@ map.on('locationfound', function(e){
   if(userMarker){ map.removeLayer(userMarker); }
   if(userAccuracy){ map.removeLayer(userAccuracy); }
   userMarker = L.marker(e.latlng).addTo(map).bindPopup('Lokasi Anda');
-  userAccuracy = L.circle(e.latlng, {
-    radius:e.accuracy,
-    color:'#2563eb',
-    fillColor:'#60a5fa',
-    fillOpacity:0.08,
-    weight:1
-  }).addTo(map);
+  userAccuracy = L.circle(e.latlng, { radius:e.accuracy, color:'#2563eb', fillColor:'#60a5fa', fillOpacity:0.08, weight:1 }).addTo(map);
   document.getElementById('statusLocation').innerHTML = '<span class="status-ok">Aktif</span>';
 });
-map.on('locationerror', function(){
-  document.getElementById('statusLocation').innerHTML = '<span class="status-warn">Nonaktif</span>';
-});
+map.on('locationerror', function(){ document.getElementById('statusLocation').innerHTML = '<span class="status-warn">Nonaktif</span>'; });
 
 /* ===============================
    ROUTING
@@ -410,7 +288,6 @@ var startLatLng = null;
 var endLatLng = null;
 var startMarker = null;
 var endMarker = null;
-
 function setPointMarker(type, latlng){
   if(type === 'start'){
     if(startMarker){ map.removeLayer(startMarker); }
@@ -420,376 +297,260 @@ function setPointMarker(type, latlng){
     endMarker = L.marker(latlng, {title:'Titik B'}).addTo(map).bindPopup('Titik B');
   }
 }
-
 map.on('click', function(e){
-  if(!startLatLng){
-    startLatLng = e.latlng;
-    document.getElementById('startPoint').value = e.latlng.lat.toFixed(6)+','+e.latlng.lng.toFixed(6);
-    setPointMarker('start', e.latlng);
-  } else if(!endLatLng){
-    endLatLng = e.latlng;
-    document.getElementById('endPoint').value = e.latlng.lat.toFixed(6)+','+e.latlng.lng.toFixed(6);
-    setPointMarker('end', e.latlng);
-  } else {
-    startLatLng = e.latlng;
-    endLatLng = null;
-    document.getElementById('startPoint').value = e.latlng.lat.toFixed(6)+','+e.latlng.lng.toFixed(6);
-    document.getElementById('endPoint').value = '';
-    setPointMarker('start', e.latlng);
-    if(endMarker){ map.removeLayer(endMarker); endMarker = null; }
-  }
+  if(!startLatLng){ startLatLng = e.latlng; document.getElementById('startPoint').value = e.latlng.lat.toFixed(6)+','+e.latlng.lng.toFixed(6); setPointMarker('start', e.latlng); }
+  else if(!endLatLng){ endLatLng = e.latlng; document.getElementById('endPoint').value = e.latlng.lat.toFixed(6)+','+e.latlng.lng.toFixed(6); setPointMarker('end', e.latlng); }
+  else { startLatLng = e.latlng; endLatLng = null; document.getElementById('startPoint').value = e.latlng.lat.toFixed(6)+','+e.latlng.lng.toFixed(6); document.getElementById('endPoint').value = ''; setPointMarker('start', e.latlng); if(endMarker){ map.removeLayer(endMarker); endMarker = null; } }
 });
-
 document.getElementById('useMyLocation').onclick = function(){
-  if(userMarker){
-    startLatLng = userMarker.getLatLng();
-    document.getElementById('startPoint').value = startLatLng.lat.toFixed(6)+','+startLatLng.lng.toFixed(6);
-    setPointMarker('start', startLatLng);
-    map.flyTo(startLatLng, 14);
-  } else {
-    alert('Lokasi Anda belum tersedia. Izinkan akses lokasi lalu coba lagi.');
-    map.locate({ setView:true, maxZoom:14, enableHighAccuracy:true });
-  }
+  if(userMarker){ startLatLng = userMarker.getLatLng(); document.getElementById('startPoint').value = startLatLng.lat.toFixed(6)+','+startLatLng.lng.toFixed(6); setPointMarker('start', startLatLng); map.flyTo(startLatLng, 14); }
+  else { alert('Lokasi Anda belum tersedia. Izinkan akses lokasi lalu coba lagi.'); map.locate({ setView:true, maxZoom:14, enableHighAccuracy:true }); }
 };
-
 document.getElementById('btnRoute').onclick = function(){
-  if(!startLatLng || !endLatLng){
-    alert('Tentukan titik A dan B terlebih dahulu.');
-    return;
-  }
-
+  if(!startLatLng || !endLatLng){ alert('Tentukan titik A dan B terlebih dahulu.'); return; }
   var mode = document.getElementById('modeTravel').value;
   if(routingControl){ map.removeControl(routingControl); }
-
   routingControl = L.Routing.control({
-    waypoints:[startLatLng, endLatLng],
-    routeWhileDragging:false,
-    addWaypoints:false,
-    fitSelectedRoutes:true,
-    showAlternatives:false,
-    draggableWaypoints:false,
-    createMarker:function(){ return null; },
-    lineOptions:{
-      styles:[{color:'#2563eb', opacity:0.85, weight:6}]
-    },
-    router:L.Routing.osrmv1({ profile:mode })
+    waypoints:[startLatLng, endLatLng], routeWhileDragging:false, addWaypoints:false, fitSelectedRoutes:true, showAlternatives:false, draggableWaypoints:false,
+    createMarker:function(){ return null; }, lineOptions:{ styles:[{color:'#2563eb', opacity:0.85, weight:6}] }, router:L.Routing.osrmv1({ profile:mode })
   }).addTo(map);
-
   routingControl.on('routesfound', function(e){
-    try{
-      var route = e.routes[0];
-      var summary = route.summary || {};
-      var km = ((summary.totalDistance || 0) / 1000).toFixed(2);
-      var mins = Math.round((summary.totalTime || 0) / 60);
-      setAnalysis(
-        '<b>Analisis Rute</b><br>'+
-        'Jarak rute sekitar <b>'+km+' km</b> dengan estimasi waktu <b>'+mins+' menit</b>.<hr>'+
-        '<span class="legend-dot" style="color:#60a5fa">●</span> Rute aktif berhasil dibuat.'
-      );
-    }catch(err){
-      console.warn(err);
-    }
+    try{ var route = e.routes[0]; var summary = route.summary || {}; var km = ((summary.totalDistance || 0) / 1000).toFixed(2); var mins = Math.round((summary.totalTime || 0) / 60);
+      setAnalysis('<b>Analisis Rute</b><br>Jarak rute sekitar <b>'+km+' km</b> dengan estimasi waktu <b>'+mins+' menit</b>.<hr><span class="legend-dot" style="color:#60a5fa">●</span> Rute aktif berhasil dibuat.'); }
+    catch(err){ console.warn(err); }
   });
 };
-
 document.getElementById('resetRoute').onclick = function(){
   if(routingControl){ map.removeControl(routingControl); routingControl = null; }
-  startLatLng = null;
-  endLatLng = null;
-  document.getElementById('startPoint').value = '';
-  document.getElementById('endPoint').value = '';
+  startLatLng = null; endLatLng = null; document.getElementById('startPoint').value = ''; document.getElementById('endPoint').value = '';
   if(startMarker){ map.removeLayer(startMarker); startMarker = null; }
   if(endMarker){ map.removeLayer(endMarker); endMarker = null; }
-  setAnalysis(
-    '<b>Analisis Jarak</b><br>Klik marker fasilitas kesehatan untuk melihat jarak dari lokasi Anda atau gunakan tombol <b>Cari Fasilitas Terdekat</b>.<hr>'+
-    '<span class="legend-dot" style="color:red">●</span> Rumah Sakit ' +
-    '<span class="legend-dot" style="color:green">●</span> Puskesmas ' +
-    '<span class="legend-dot" style="color:orange">●</span> Klinik ' +
-    '<span class="legend-dot" style="color:purple">●</span> Apotek'
-  );
+  setAnalysis('<b>Analisis Jarak</b><br>Klik marker fasilitas kesehatan untuk melihat jarak dari lokasi Anda. Layer tambahan dari qgis2web dapat dihidupkan dari panel kiri.<hr><span class="legend-dot" style="color:red">●</span> Rumah Sakit <span class="legend-dot" style="color:green">●</span> Puskesmas <span class="legend-dot" style="color:orange">●</span> Klinik <span class="legend-dot" style="color:purple">●</span> Apotek');
 };
 
 /* ===============================
-   LAYER DATA
+   LAYER DATA UTAMA
 =============================== */
 var rsLayer = L.layerGroup().addTo(map);
 var puskesmasLayer = L.layerGroup().addTo(map);
 var klinikLayer = L.layerGroup().addTo(map);
 var apotekLayer = L.layerGroup().addTo(map);
+var otherFacilityLayer = L.layerGroup().addTo(map);
 
-var allFacilities = [];
+var qgisBoundaryLayer = L.layerGroup().addTo(map);
+var qgisFaskesLayer = L.layerGroup().addTo(map);
+addOverlayToControl(qgisBoundaryLayer, 'Batas Purworejo (QGIS2Web)');
+addOverlayToControl(qgisFaskesLayer, 'Faskes (QGIS2Web)');
+
 var allMarkers = [];
 var boundsGroup = L.featureGroup();
+var qgisBoundsGroup = L.featureGroup();
 
-function getVisibleMarkers(){
-  return allMarkers.filter(function(item){ return isLayerVisible(item.jenis) && item.visible !== false; });
-}
-
+function getVisibleMarkers(){ return allMarkers.filter(function(item){ return isLayerVisible(item.jenis) && item.visible !== false; }); }
 function refreshFacilityList(items){
   var container = document.getElementById('facilityList');
   var visibleItems = items || getVisibleMarkers();
   document.getElementById('listCount').textContent = visibleItems.length + ' item';
-
-  if(!visibleItems.length){
-    container.innerHTML = '<div class="small-muted">Tidak ada fasilitas yang sesuai filter.</div>';
-    return;
-  }
-
+  if(!visibleItems.length){ container.innerHTML = '<div class="small-muted">Tidak ada fasilitas yang sesuai filter.</div>'; return; }
   container.innerHTML = visibleItems.map(function(item){
-    return '<div class="facility-item" data-id="'+item.id+'">'+
-      '<div class="d-flex justify-content-between gap-2">'+
-        '<b>'+escapeHtml(item.nama)+'</b>'+
-        '<span class="badge-soft">'+escapeHtml(item.jenis)+'</span>'+
-      '</div>'+
-      '<div class="small-muted mt-1">'+escapeHtml(item.kecamatan)+'</div>'+
-    '</div>';
+    return '<div class="facility-item" data-id="'+item.id+'"><div class="d-flex justify-content-between gap-2"><b>'+escapeHtml(item.nama)+'</b><span class="badge-soft">'+escapeHtml(item.jenis)+'</span></div><div class="small-muted mt-1">'+escapeHtml(item.kecamatan)+'</div></div>';
   }).join('');
-
   Array.prototype.forEach.call(container.querySelectorAll('.facility-item'), function(el){
     el.onclick = function(){
       var id = el.getAttribute('data-id');
       var match = allMarkers.find(function(m){ return String(m.id) === String(id); });
-      if(match){
-        map.flyTo(match.latlng, 15, {duration:.8});
-        match.marker.fire('click');
-      }
+      if(match){ map.flyTo(match.latlng, 15, {duration:.8}); match.marker.fire('click'); }
     };
   });
 }
-
-function showFacilityInfo(item, distText){ return; }
-
 function handleFacilityClick(item){
-  var distText = '';
   var analysisHtml = '<b>Analisis Fasilitas</b><br>Informasi fasilitas berhasil ditampilkan.';
-  var popupHtml =
-    '<div style="min-width:220px">'+
-    '<div style="font-weight:700;font-size:15px;margin-bottom:6px">'+escapeHtml(item.nama)+'</div>'+
-    '<div><b>Jenis:</b> '+escapeHtml(item.jenis)+'</div>'+
-    '<div><b>Kecamatan:</b> '+escapeHtml(item.kecamatan)+'</div>'+
-    '<div><b>Alamat:</b> '+escapeHtml(item.alamat)+'</div>';
-
-  if(userMarker){
-    var user = userMarker.getLatLng();
-    var dist = getDistance(user.lat, user.lng, item.latlng.lat, item.latlng.lng);
-    distText = 'Jarak dari lokasi Anda sekitar ' + dist.toFixed(2) + ' km';
-    popupHtml += '<hr style="margin:8px 0"><div><b>Jarak dari lokasi Anda:</b> '+dist.toFixed(2)+' km</div>';
-    analysisHtml = '<b>Analisis Jarak</b><br>'+
-      'Jarak ke <b>'+escapeHtml(item.nama)+'</b> sekitar <b>'+dist.toFixed(2)+' km</b>.<hr>'+
-      '<span class="legend-dot" style="color:'+item.color+'">●</span> '+escapeHtml(item.jenis)+' | '+escapeHtml(item.kecamatan);
-  } else {
-    popupHtml += '<hr style="margin:8px 0"><div class="small-muted">Aktifkan lokasi untuk melihat jarak dari posisi Anda.</div>';
-  }
-
+  var popupHtml = '<div style="min-width:220px"><div style="font-weight:700;font-size:15px;margin-bottom:6px">'+escapeHtml(item.nama)+'</div><div><b>Jenis:</b> '+escapeHtml(item.jenis)+'</div><div><b>Kecamatan:</b> '+escapeHtml(item.kecamatan)+'</div><div><b>Alamat:</b> '+escapeHtml(item.alamat)+'</div>';
+  if(userMarker){ var user = userMarker.getLatLng(); var dist = getDistance(user.lat, user.lng, item.latlng.lat, item.latlng.lng); popupHtml += '<hr style="margin:8px 0"><div><b>Jarak dari lokasi Anda:</b> '+dist.toFixed(2)+' km</div>'; analysisHtml = '<b>Analisis Jarak</b><br>Jarak ke <b>'+escapeHtml(item.nama)+'</b> sekitar <b>'+dist.toFixed(2)+' km</b>.<hr><span class="legend-dot" style="color:'+item.color+'">●</span> '+escapeHtml(item.jenis)+' | '+escapeHtml(item.kecamatan); }
+  else { popupHtml += '<hr style="margin:8px 0"><div class="small-muted">Aktifkan lokasi untuk melihat jarak dari posisi Anda.</div>'; }
   popupHtml += '</div>';
   item.marker.bindPopup(popupHtml).openPopup();
   setAnalysis(analysisHtml);
-
   endLatLng = item.latlng;
   document.getElementById('endPoint').value = item.latlng.lat.toFixed(6)+','+item.latlng.lng.toFixed(6);
   setPointMarker('end', item.latlng);
 }
-
 function applyFacilityFilter(){
   var keyword = (document.getElementById('facilityFilter').value || '').toLowerCase().trim();
-
   allMarkers.forEach(function(item){
     var text = [item.nama, item.jenis, item.kecamatan, item.alamat].join(' ').toLowerCase();
     var match = !keyword || text.indexOf(keyword) !== -1;
     item.visible = match;
-    if(match){
-      if(isLayerVisible(item.jenis) && !map.hasLayer(item.marker)){
-        item.marker.addTo(layerByType(item.jenis));
-      }
-    } else {
-      if(map.hasLayer(item.marker)){
-        map.removeLayer(item.marker);
-      }
-    }
+    if(match){ if(isLayerVisible(item.jenis) && !map.hasLayer(item.marker)){ item.marker.addTo(layerByType(item.jenis)); } }
+    else { if(map.hasLayer(item.marker)){ map.removeLayer(item.marker); } }
   });
-
   updateCounts();
   refreshFacilityList(getVisibleMarkers());
 }
-
 document.getElementById('facilityFilter').addEventListener('input', applyFacilityFilter);
-
 document.getElementById('btnResetFilter').onclick = function(){
   document.getElementById('facilityFilter').value = '';
-  allMarkers.forEach(function(item){
-    item.visible = true;
-    if(isLayerVisible(item.jenis) && !map.hasLayer(item.marker)){
-      item.marker.addTo(layerByType(item.jenis));
-    }
-  });
-  updateCounts();
-  refreshFacilityList(getVisibleMarkers());
+  allMarkers.forEach(function(item){ item.visible = true; if(isLayerVisible(item.jenis) && !map.hasLayer(item.marker)){ item.marker.addTo(layerByType(item.jenis)); } });
+  updateCounts(); refreshFacilityList(getVisibleMarkers());
 };
-
 document.getElementById('btnZoomAll').onclick = function(){
   var visible = getVisibleMarkers();
-  if(!visible.length){
-    alert('Tidak ada fasilitas yang dapat ditampilkan.');
-    return;
-  }
+  if(!visible.length){ alert('Tidak ada fasilitas yang dapat ditampilkan.'); return; }
   var group = L.featureGroup(visible.map(function(v){ return v.marker; }));
   map.fitBounds(group.getBounds().pad(0.15));
 };
-
 document.getElementById('btnNearest').onclick = function(){
-  if(!userMarker){
-    alert('Lokasi Anda belum tersedia. Izinkan akses lokasi lalu coba lagi.');
-    map.locate({ setView:true, maxZoom:14, enableHighAccuracy:true });
-    return;
-  }
-  var user = userMarker.getLatLng();
-  var visible = getVisibleMarkers();
-  if(!visible.length){
-    alert('Tidak ada fasilitas aktif untuk dianalisis.');
-    return;
-  }
+  if(!userMarker){ alert('Lokasi Anda belum tersedia. Izinkan akses lokasi lalu coba lagi.'); map.locate({ setView:true, maxZoom:14, enableHighAccuracy:true }); return; }
+  var user = userMarker.getLatLng(); var visible = getVisibleMarkers();
+  if(!visible.length){ alert('Tidak ada fasilitas aktif untuk dianalisis.'); return; }
   var nearest = null;
-  visible.forEach(function(item){
-    var d = getDistance(user.lat, user.lng, item.latlng.lat, item.latlng.lng);
-    if(!nearest || d < nearest.distance){
-      nearest = { item:item, distance:d };
-    }
-  });
-  if(nearest){
-    map.flyTo(nearest.item.latlng, 15, {duration:.8});
-    nearest.item.marker.openPopup();
-    handleFacilityClick(nearest.item);
-    setAnalysis(
-      '<b>Fasilitas Terdekat</b><br>'+
-      '<b>'+escapeHtml(nearest.item.nama)+'</b> adalah fasilitas terdekat dari lokasi Anda dengan jarak sekitar <b>'+nearest.distance.toFixed(2)+' km</b>.<hr>'+
-      '<span class="legend-dot" style="color:'+nearest.item.color+'">●</span> '+escapeHtml(nearest.item.jenis)+' | '+escapeHtml(nearest.item.kecamatan)
-    );
-  }
+  visible.forEach(function(item){ var d = getDistance(user.lat, user.lng, item.latlng.lat, item.latlng.lng); if(!nearest || d < nearest.distance){ nearest = { item:item, distance:d }; } });
+  if(nearest){ map.flyTo(nearest.item.latlng, 15, {duration:.8}); nearest.item.marker.openPopup(); handleFacilityClick(nearest.item); setAnalysis('<b>Fasilitas Terdekat</b><br><b>'+escapeHtml(nearest.item.nama)+'</b> adalah fasilitas terdekat dari lokasi Anda dengan jarak sekitar <b>'+nearest.distance.toFixed(2)+' km</b>.<hr><span class="legend-dot" style="color:'+nearest.item.color+'">●</span> '+escapeHtml(nearest.item.jenis)+' | '+escapeHtml(nearest.item.kecamatan)); }
 };
 
 /* ===============================
-   LOAD GEOJSON (AMAN)
+   LOAD GEOJSON UTAMA
 =============================== */
 fetch('assets/geojson/faskes.geojson')
-  .then(function(res){
-    if(!res.ok){ throw new Error('Gagal memuat GeoJSON: '+res.status); }
-    return res.json();
-  })
+  .then(function(res){ if(!res.ok){ throw new Error('Gagal memuat GeoJSON: '+res.status); } return res.json(); })
   .then(function(data){
-    if(!data || !Array.isArray(data.features)){
-      throw new Error('Format GeoJSON tidak valid.');
-    }
-
+    if(!data || !Array.isArray(data.features)){ throw new Error('Format GeoJSON tidak valid.'); }
     document.getElementById('statusData').innerHTML = '<span class="status-ok">Siap</span>';
-
-    var typeCounts = { 'Rumah Sakit':0, 'Puskesmas':0, 'Klinik':0, 'Apotek':0 };
-
     data.features.forEach(function(feature, index){
       if(!feature.geometry || feature.geometry.type !== 'Point' || !feature.geometry.coordinates){ return; }
-
-      var lat = feature.geometry.coordinates[1];
-      var lon = feature.geometry.coordinates[0];
+      var lat = feature.geometry.coordinates[1], lon = feature.geometry.coordinates[0];
       var props = feature.properties || {};
-      var jenis = safeText(props.jenis_faskes, 'Lainnya');
-      var nama = safeText(props.nama_faskes, 'Tanpa Nama');
+      var jenis = safeText(props.jenis_faskes || props.jenis, 'Lainnya');
+      var nama = safeText(props.nama_faskes || props.nama, 'Tanpa Nama');
       var kecamatan = safeText(props.kecamatan, '-');
       var alamat = safeText(props.alamat, '-');
       var color = getColorByType(jenis);
-
-      var marker = L.circleMarker([lat, lon], {
-        radius:8,
-        fillColor:color,
-        color:'#ffffff',
-        weight:1.5,
-        fillOpacity:0.95
-      });
-
-      marker.bindPopup(
-        '<b>'+escapeHtml(nama)+'</b><br>'+
-        'Jenis: '+escapeHtml(jenis)+'<br>'+
-        'Kecamatan: '+escapeHtml(kecamatan)
-      );
+      var marker = L.circleMarker([lat, lon], { radius:8, fillColor:color, color:'#ffffff', weight:1.5, fillOpacity:0.95 });
+      marker.bindPopup('<b>'+escapeHtml(nama)+'</b><br>Jenis: '+escapeHtml(jenis)+'<br>Kecamatan: '+escapeHtml(kecamatan));
       marker.bindTooltip(nama, {direction:'top', offset:[0,-6]});
-
-      var item = {
-        id:index+1,
-        marker:marker,
-        latlng:L.latLng(lat, lon),
-        nama:nama,
-        jenis:jenis,
-        kecamatan:kecamatan,
-        alamat:alamat,
-        color:color,
-        visible:true
-      };
-
-      marker.on('mouseover', function(){
-        marker.setStyle({ radius:10, weight:2.2 });
-      });
-      marker.on('mouseout', function(){
-        marker.setStyle({ radius:8, weight:1.5 });
-      });
+      var item = { id:index+1, marker:marker, latlng:L.latLng(lat, lon), nama:nama, jenis:jenis, kecamatan:kecamatan, alamat:alamat, color:color, visible:true };
+      marker.on('mouseover', function(){ marker.setStyle({ radius:10, weight:2.2 }); });
+      marker.on('mouseout', function(){ marker.setStyle({ radius:8, weight:1.5 }); });
       marker.on('click', function(){ handleFacilityClick(item); });
-
       marker.addTo(layerByType(jenis));
       boundsGroup.addLayer(marker);
-      allFacilities.push(item);
       allMarkers.push(item);
-      if(typeCounts[jenis] !== undefined){ typeCounts[jenis] += 1; }
     });
-
     document.getElementById('countTotal').textContent = allMarkers.length;
     updateCounts();
     refreshFacilityList(getVisibleMarkers());
-
-    if(boundsGroup.getLayers().length){
-      map.fitBounds(boundsGroup.getBounds().pad(0.12));
-    }
+    if(boundsGroup.getLayers().length){ map.fitBounds(boundsGroup.getBounds().pad(0.12)); }
   })
   .catch(function(err){
     console.error(err);
     document.getElementById('statusData').innerHTML = '<span class="status-warn">Gagal</span>';
-    setAnalysis(
-      '<b>Status Data</b><br>Terjadi kendala saat memuat data fasilitas. Pastikan struktur folder dan nama file GeoJSON sudah benar.<hr>'+
-      '<span class="legend-dot" style="color:#f87171">●</span> Path yang dibutuhkan: <b>assets/geojson/faskes.geojson</b>'
-    );
+    setAnalysis('<b>Status Data</b><br>Terjadi kendala saat memuat data fasilitas. Pastikan struktur folder dan nama file GeoJSON sudah benar.<hr><span class="legend-dot" style="color:#f87171">●</span> Path yang dibutuhkan: <b>assets/geojson/faskes.geojson</b>');
   });
 
 /* ===============================
-   TOGGLE LAYER
+   INTEGRASI DATA QGIS2WEB KE LEAFLET
+   Mengandalkan file JS standar export qgis2web yang biasanya
+   membuat variabel global json_faskes_1 dan json_Purworejo_2.
+=============================== */
+function createLeafletFromQgisGeojson(geojsonObj, targetLayer, options){
+  if(!geojsonObj || !Array.isArray(geojsonObj.features)) return false;
+  var lyr = L.geoJSON(geojsonObj, {
+    style:function(feature){
+      if(options && options.style) return options.style(feature);
+      return { color:'#2563eb', weight:2, fillColor:'#60a5fa', fillOpacity:0.08 };
+    },
+    pointToLayer:function(feature, latlng){
+      if(options && options.pointToLayer) return options.pointToLayer(feature, latlng);
+      return L.circleMarker(latlng, { radius:6, fillColor:'#0ea5e9', color:'#ffffff', weight:1, fillOpacity:0.9 });
+    },
+    onEachFeature:function(feature, layer){
+      var html = '<div style="min-width:220px"><div style="font-weight:700;margin-bottom:6px">Data QGIS2Web</div>'+formatAnyProps(feature.properties)+'</div>';
+      layer.bindPopup(html);
+      targetLayer.addLayer(layer);
+      qgisBoundsGroup.addLayer(layer);
+    }
+  });
+  return true;
+}
+
+function loadQgis2WebData(){
+  var baseFolder = 'qgis2web_2026_04_22-22_00_34_267158';
+  document.getElementById('qgisDataStatus').textContent = 'Memuat...';
+
+  return Promise.all([
+    loadScript(baseFolder + '/layers/faskes_1.js'),
+    loadScript(baseFolder + '/layers/Purworejo_2.js')
+  ]).then(function(){
+    var successCount = 0;
+
+    if(typeof json_Purworejo_2 !== 'undefined'){
+      successCount += createLeafletFromQgisGeojson(json_Purworejo_2, qgisBoundaryLayer, {
+        style:function(){ return { color:'#1d4ed8', weight:3, fillColor:'#60a5fa', fillOpacity:0.05 }; }
+      }) ? 1 : 0;
+    }
+
+    if(typeof json_faskes_1 !== 'undefined'){
+      successCount += createLeafletFromQgisGeojson(json_faskes_1, qgisFaskesLayer, {
+        pointToLayer:function(feature, latlng){
+          var props = feature.properties || {};
+          var jenis = safeText(props.jenis || props.jenis_faskes, 'Lainnya');
+          return L.circleMarker(latlng, {
+            radius:6,
+            fillColor:getColorByType(jenis),
+            color:'#ffffff',
+            weight:1.2,
+            fillOpacity:0.85,
+            dashArray:'2,2'
+          });
+        }
+      }) ? 1 : 0;
+    }
+
+    if(successCount){
+      document.getElementById('qgisDataStatus').innerHTML = '<span class="status-ok">Siap</span>';
+      if(qgisBoundsGroup.getLayers().length){
+        // jangan otomatis zoom kalau data utama sudah ada; cukup simpan bounds-nya
+      }
+    } else {
+      throw new Error('Variabel GeoJSON qgis2web tidak ditemukan.');
+    }
+  }).catch(function(err){
+    console.error(err);
+    document.getElementById('qgisDataStatus').innerHTML = '<span class="status-warn">Gagal</span>';
+    setAnalysis('<b>Data QGIS2Web</b><br>Layer qgis2web belum berhasil dimuat ke peta interaktif. Pastikan folder <b>qgis2web_2026_04_22-22_00_34_267158</b> berisi file <b>layers/faskes_1.js</b> dan <b>layers/Purworejo_2.js</b>.<hr><span class="legend-dot" style="color:#f59e0b">●</span> Peta interaktif utama tetap bisa digunakan.');
+  });
+}
+loadQgis2WebData();
+
+document.getElementById('btnZoomQgisData').onclick = function(){
+  if(qgisBoundsGroup.getLayers().length){ map.fitBounds(qgisBoundsGroup.getBounds().pad(0.15)); }
+  else { alert('Data QGIS2Web belum tersedia atau belum berhasil dimuat.'); }
+};
+
+document.getElementById('qgisLayerBoundary').onchange = function(){
+  this.checked ? map.addLayer(qgisBoundaryLayer) : map.removeLayer(qgisBoundaryLayer);
+};
+document.getElementById('qgisLayerFaskes').onchange = function(){
+  this.checked ? map.addLayer(qgisFaskesLayer) : map.removeLayer(qgisFaskesLayer);
+};
+
+/* ===============================
+   TOGGLE LAYER DATA UTAMA
 =============================== */
 function syncLayerVisibility(){
   allMarkers.forEach(function(item){
-    if(item.visible === false){
-      if(map.hasLayer(item.marker)){ map.removeLayer(item.marker); }
-      return;
-    }
-    if(isLayerVisible(item.jenis)){
-      if(!map.hasLayer(item.marker)) item.marker.addTo(layerByType(item.jenis));
-    } else {
-      if(map.hasLayer(item.marker)) map.removeLayer(item.marker);
-    }
+    if(item.visible === false){ if(map.hasLayer(item.marker)){ map.removeLayer(item.marker); } return; }
+    if(isLayerVisible(item.jenis)){ if(!map.hasLayer(item.marker)) item.marker.addTo(layerByType(item.jenis)); }
+    else { if(map.hasLayer(item.marker)) map.removeLayer(item.marker); }
   });
   updateCounts();
   refreshFacilityList(getVisibleMarkers());
 }
 
-document.getElementById('layerRS').onchange = function(){
-  this.checked ? map.addLayer(rsLayer) : map.removeLayer(rsLayer);
-  syncLayerVisibility();
-};
-document.getElementById('layerPuskesmas').onchange = function(){
-  this.checked ? map.addLayer(puskesmasLayer) : map.removeLayer(puskesmasLayer);
-  syncLayerVisibility();
-};
-document.getElementById('layerKlinik').onchange = function(){
-  this.checked ? map.addLayer(klinikLayer) : map.removeLayer(klinikLayer);
-  syncLayerVisibility();
-};
-document.getElementById('layerApotek').onchange = function(){
-  this.checked ? map.addLayer(apotekLayer) : map.removeLayer(apotekLayer);
-  syncLayerVisibility();
-};
+document.getElementById('layerRS').onchange = function(){ this.checked ? map.addLayer(rsLayer) : map.removeLayer(rsLayer); syncLayerVisibility(); };
+document.getElementById('layerPuskesmas').onchange = function(){ this.checked ? map.addLayer(puskesmasLayer) : map.removeLayer(puskesmasLayer); syncLayerVisibility(); };
+document.getElementById('layerKlinik').onchange = function(){ this.checked ? map.addLayer(klinikLayer) : map.removeLayer(klinikLayer); syncLayerVisibility(); };
+document.getElementById('layerApotek').onchange = function(){ this.checked ? map.addLayer(apotekLayer) : map.removeLayer(apotekLayer); syncLayerVisibility(); };
 </script>
 </body>
 </html>
