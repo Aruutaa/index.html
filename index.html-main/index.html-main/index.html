@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebGIS Fasilitas Kesehatan Purworejo</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+body{
+font-family:'Poppins', sans-serif;
+background:#0f172a;
+color:white;
+}
+
+.navbar{
+background:#020617;
+box-shadow:0 6px 18px rgba(0,0,0,0.18);
+}
+
+.hero{
+min-height:90vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.9)),
+url('assets/Screenshot 2026-04-08 220640.png');
+background-size:cover;
+background-position:center;
+padding:120px 20px 80px;
+}
+
+.hero h1{
+font-size:60px;
+font-weight:700;
+}
+
+.hero .lead{
+max-width:760px;
+margin:0 auto;
+}
+
+.section{
+padding:80px 0;
+}
+
+#map{
+height:550px;
+border-radius:20px;
+box-shadow:0 18px 40px rgba(0,0,0,0.28);
+}
+
+.card-modern{
+background:rgba(255,255,255,0.05);
+border:none;
+border-radius:20px;
+padding:25px;
+backdrop-filter:blur(6px);
+height:100%;
+}
+
+.choice-card{
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:22px;
+padding:28px;
+height:100%;
+transition:0.25s ease;
+}
+
+.choice-card:hover{
+transform:translateY(-4px);
+background:rgba(255,255,255,0.09);
+}
+
+.choice-card h4{
+font-weight:600;
+margin-bottom:12px;
+}
+
+.btn-soft{
+border-radius:14px;
+padding:12px 18px;
+font-weight:600;
+}
+
+footer{
+background:#020617;
+padding:25px;
+text-align:center;
+}
+
+.legend{
+background:white;
+color:black;
+padding:10px;
+border-radius:10px;
+line-height:1.5;
+}
+
+.dropdown-menu{
+border-radius:14px;
+border:none;
+box-shadow:0 12px 28px rgba(0,0,0,0.18);
+}
+
+@media (max-width: 768px){
+.hero h1{
+font-size:38px;
+}
+#map{
+height:430px;
+}
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+<div class="container">
+<a class="navbar-brand" href="#">WebGIS Fasilitas Kesehatan</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+
+<div class="collapse navbar-collapse" id="navbarMain">
+<ul class="navbar-nav ms-auto">
+<li class="nav-item">
+<a class="nav-link" href="#">Home</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="#about">Tentang</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="#pilihan-peta">Pilihan Peta</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="#map-section">Sebaran</a>
+</li>
+<li class="nav-item dropdown">
+<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+Peta
+</a>
+<ul class="dropdown-menu dropdown-menu-end">
+<li><a class="dropdown-item" href="map.html">Peta Interaktif</a></li>
+<li><a class="dropdown-item" href="qgis2web_2026_04_23-18_55_20_880960/index.html">Peta QGIS2Web</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+
+<section class="hero">
+<div class="container">
+<h1>WEBGIS FASILITAS KESEHATAN</h1>
+<p class="lead">Sebaran fasilitas kesehatan di Kabupaten Purworejo dengan dua pilihan visualisasi peta: peta interaktif berbasis WebGIS dan peta hasil export QGIS2Web.</p>
+<div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+<a href="#pilihan-peta" class="btn btn-primary btn-soft">Pilih Jenis Peta</a>
+<a href="#map-section" class="btn btn-outline-light btn-soft">Lihat Visualisasi</a>
+</div>
+</div>
+</section>
+
+<section class="section container" id="about">
+<h2 class="text-center mb-4">Tentang WebGIS</h2>
+<div class="row g-4 align-items-stretch">
+<div class="col-md-6">
+<div class="card-modern">
+<p>
+Peta interaktif pada WebGIS ini memungkinkan pengguna untuk mengakses informasi lokasi fasilitas kesehatan secara lebih mudah dan cepat. Setiap titik lokasi pada peta dilengkapi dengan atribut informasi yang memuat data penting seperti nama fasilitas kesehatan, jenis layanan, alamat, serta informasi tambahan yang relevan. Dengan adanya visualisasi spasial ini, masyarakat maupun pihak terkait dapat memperoleh gambaran yang lebih jelas mengenai distribusi fasilitas kesehatan di Kabupaten Purworejo.
+</p>
+<p>
+Selain sebagai media penyebaran informasi kepada masyarakat, WebGIS ini juga dapat dimanfaatkan sebagai alat pendukung dalam perencanaan dan pengambilan keputusan di bidang pelayanan kesehatan.
+</p>
+<p>
+Dengan memanfaatkan teknologi sistem informasi geografis berbasis web, WebGIS Fasilitas Kesehatan Kabupaten Purworejo diharapkan dapat meningkatkan transparansi informasi, mempermudah akses masyarakat terhadap layanan kesehatan, serta mendukung pengelolaan data spasial kesehatan secara lebih efektif dan terintegrasi.
+</p>
+</div>
+</div>
+<div class="col-md-6">
+<img src="assets/wd.jpg" class="img-fluid rounded-4 shadow" alt="Ilustrasi WebGIS Fasilitas Kesehatan">
+</div>
+</div>
+</section>
+
+<section class="section container" id="pilihan-peta">
+<h2 class="text-center mb-4">Pilihan Peta</h2>
+<div class="row g-4">
+<div class="col-md-6">
+<div class="choice-card">
+<h4>Peta Interaktif</h4>
+<p>Peta ini cocok untuk eksplorasi data secara dinamis, pencarian lokasi, analisis, popup atribut, dan interaksi yang lebih fleksibel bagi pengguna.</p>
+<a href="map.html" class="btn btn-primary btn-soft">Buka Peta Interaktif</a>
+</div>
+</div>
+<div class="col-md-6">
+<div class="choice-card">
+<h4>Peta QGIS2Web</h4>
+<p>Peta ini menampilkan hasil export langsung dari plugin QGIS2Web sehingga layout, simbologi, dan tampilan dari QGIS tetap terjaga.</p>
+<a href="qgis2web_2026_04_23-18_55_20_880960/index.html" class="btn btn-outline-light btn-soft">Buka Peta QGIS2Web</a>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section container" id="map-section">
+<h2 class="text-center mb-4">Sebaran Fasilitas Kesehatan Purworejo</h2>
+<div id="map"></div>
+</section>
+
+<footer>
+<p>© 2026 Dendi Duandiarta/117230024 WebGIS Fasilitas Kesehatan Purworejo</p>
+</footer>
+
+<script>
+var map = L.map('map').setView([-7.72,110.02],11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+attribution:'© OpenStreetMap'
+}).addTo(map);
+
+fetch('assets/geojson/pwr.geojson')
+.then(function(res){ return res.json(); })
+.then(function(data){
+var batasLayer = L.geoJSON(data,{
+style:{
+color:'#1d4ed8',
+weight:3,
+fillColor:'#60a5fa',
+fillOpacity:0.1
+}
+}).addTo(map);
+map.fitBounds(batasLayer.getBounds());
+})
+.catch(function(err){
+console.error('Gagal memuat batas administrasi:', err);
+});
+
+fetch('assets/geojson/faskes.geojson')
+.then(function(res){ return res.json(); })
+.then(function(data){
+L.geoJSON(data,{
+pointToLayer:function(feature,latlng){
+var jenis = feature.properties.jenis;
+var color = 'blue';
+if(jenis==='Rumah Sakit'){color='red';}
+if(jenis==='Puskesmas'){color='green';}
+if(jenis==='Klinik'){color='orange';}
+if(jenis==='Apotek'){color='purple';}
+return L.circleMarker(latlng,{
+radius:8,
+fillColor:color,
+color:'#fff',
+weight:1,
+fillOpacity:0.9
+});
+},
+onEachFeature:function(feature,layer){
+layer.bindPopup(
+'<b>'+feature.properties.nama+'</b><br>'+
+'Jenis : '+feature.properties.jenis+'<br>'+
+'Kecamatan : '+feature.properties.kecamatan
+);
+}
+}).addTo(map);
+})
+.catch(function(err){
+console.error('Gagal memuat data fasilitas kesehatan:', err);
+});
+
+var legend = L.control({position:'bottomright'});
+legend.onAdd = function(){
+var div = L.DomUtil.create('div','legend');
+div.innerHTML += '<b>Legenda</b><br>';
+div.innerHTML += "<i style='background:red;width:10px;height:10px;display:inline-block'></i> Rumah Sakit<br>";
+div.innerHTML += "<i style='background:green;width:10px;height:10px;display:inline-block'></i> Puskesmas<br>";
+div.innerHTML += "<i style='background:orange;width:10px;height:10px;display:inline-block'></i> Klinik<br>";
+div.innerHTML += "<i style='background:purple;width:10px;height:10px;display:inline-block'></i> Apotek";
+return div;
+};
+legend.addTo(map);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
